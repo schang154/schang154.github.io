@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            Zombieland
+        </title>
+        <link rel="stylesheet" type="text/css" href="zombie.css">
+    </head>
+    <embed>
+        <h2>Score: <a id="score">0</a></h2>
+        <div>
+        <img id="z1" class="image" src="image/zombie.png" alt="zombie">
+        <img id="z2" class="image">
+        </div>
+        <button id="end">End</button>
+        <audio loop autoplay src="sound/zombie.mp3" id="bgm">
+            Your browser doesn't support the audio element, so there is no background music for you.
+        </audio>
+        <audio src="sound/killed.mp3" id="killed">
+            Your browser doesn't support the audio element, so no sound effect for you.
+        </audio>
+        <script>
+            function bgm_slow() {
+                document.getElementById("bgm").playbackRate = 0.8;
+            }
+            bgm_slow();
+
+            let score = 0;
+            function add() {
+                //add scores as zombies are killed
+                score += 1;
+                document.getElementById("score").innerHTML = score;
+            }
+
+            function z1_shot() {
+                //animation when zombie is killed
+                document.getElementById("z1").src = "image/zombie_killed.png"
+            }
+
+            function z1_killed_sound() {
+                document.getElementById("killed").play();
+                document.getElementById("killed").playbackRate = 2;
+            }
+
+            function z2() {
+                document.getElementById("z2").src = "image/zombie.png";
+                document.getElementById("z2").style.display = "block"
+            }
+            setTimeout(z2, 10000);
+
+            function z2_shot() {
+                //animation when zombie is killed
+                document.getElementById("z2").src = "image/zombie_killed.png"
+            }
+
+            function z2_killed_sound() {
+                document.getElementById("killed").play();
+                document.getElementById("killed").playbackRate = 2;
+            }
+
+            function z1_click() {
+                add();
+                z1_shot();
+                z1_killed_sound();
+            }
+            document.getElementById("z1").onclick = z1_click;
+
+            function z2_click() {
+                add();
+                z2_shot();
+                z2_killed_sound();
+            }
+            document.getElementById("z2").onclick = z2_click;
+
+            function reload() {
+                location.reload();
+            }
+            document.getElementById("end").onclick = reload;
+
+            let width = window.innerWidth;
+                document.documentElement.clientWidth;
+                document.body.clientWidth;
+
+            let height = window.innerHeight;
+                document.documentElement.clientHeight;
+                document.body.clientHeight;
+
+            function change_z1() {
+                let x = Math.floor(width*Math.random());
+                    if (x > width - 200){
+                        x -= 200;
+                    }
+                let y = Math.floor(height*Math.random());
+                    if (y > height - 200){
+                        y -= 200;
+                    }
+                document.getElementById("z1").style.left = x + 'px';
+                document.getElementById("z1").style.top = y + 'px';
+                document.getElementById("z1").src = "image/zombie.png";
+            }
+            setInterval(change_z1, 2000);
+
+            function change_z2() {
+                let x = Math.floor(width*Math.random());
+                    if (x > width - 200){
+                        x -= 200;
+                    }
+                let y = Math.floor(height*Math.random());
+                    if (y > height - 200){
+                        y -= 200;
+                    }
+                document.getElementById("z2").style.left = x + 'px';
+                document.getElementById("z2").style.top = y + 'px';
+                document.getElementById("z2").src = "image/zombie.png";
+            }
+            setInterval(change_z2, 1500);
+        </script>
+    </body>
+</html>
