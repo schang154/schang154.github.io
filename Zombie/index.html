@@ -2,7 +2,7 @@
 <html>
     <head>
         <title>
-            Zombieland
+            Zombieland - Shih-Hung Chang
         </title>
         <link rel="stylesheet" type="text/css" href="zombie.css">
     </head>
@@ -11,6 +11,7 @@
         <div>
         <img id="z1" class="image" src="image/zombie.png" alt="zombie">
         <img id="z2" class="image">
+        <img id="z3" class="image">
         </div>
         <button id="end">End</button>
         <audio loop autoplay src="sound/zombie.mp3" id="bgm">
@@ -21,6 +22,7 @@
         </audio>
         <script>
             function bgm_slow() {
+                document.getElementById("bgm").play();
                 document.getElementById("bgm").playbackRate = 0.8;
             }
             bgm_slow();
@@ -39,14 +41,14 @@
 
             function z1_killed_sound() {
                 document.getElementById("killed").play();
-                document.getElementById("killed").playbackRate = 2;
+                document.getElementById("killed").playbackRate = 3;
             }
 
             function z2() {
                 document.getElementById("z2").src = "image/zombie.png";
                 document.getElementById("z2").style.display = "block"
             }
-            setTimeout(z2, 10000);
+            setTimeout(z2, 5000);
 
             function z2_shot() {
                 //animation when zombie is killed
@@ -55,7 +57,23 @@
 
             function z2_killed_sound() {
                 document.getElementById("killed").play();
-                document.getElementById("killed").playbackRate = 2;
+                document.getElementById("killed").playbackRate = 3;
+            }
+
+            function z3() {
+                document.getElementById("z3").src = "image/zombie.png";
+                document.getElementById("z3").style.display = "block"
+            }
+            setTimeout(z3, 10000);
+
+            function z3_shot() {
+                //animation when zombie is killed
+                document.getElementById("z3").src = "image/zombie_killed.png"
+            }
+
+            function z3_killed_sound() {
+                document.getElementById("killed").play();
+                document.getElementById("killed").playbackRate = 3;
             }
 
             function z1_click() {
@@ -71,6 +89,13 @@
                 z2_killed_sound();
             }
             document.getElementById("z2").onclick = z2_click;
+
+            function z3_click() {
+                add();
+                z3_shot();
+                z3_killed_sound();
+            }
+            document.getElementById("z3").onclick = z3_click;
 
             function reload() {
                 location.reload();
@@ -114,6 +139,21 @@
                 document.getElementById("z2").src = "image/zombie.png";
             }
             setInterval(change_z2, 1500);
+
+            function change_z3() {
+                let x = Math.floor(width*Math.random());
+                    if (x > width - 200){
+                        x -= 200;
+                    }
+                let y = Math.floor(height*Math.random());
+                    if (y > height - 200){
+                        y -= 200;
+                    }
+                document.getElementById("z3").style.left = x + 'px';
+                document.getElementById("z3").style.top = y + 'px';
+                document.getElementById("z3").src = "image/zombie.png";
+            }
+            setInterval(change_z3, 1000);
         </script>
     </body>
 </html>
