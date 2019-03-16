@@ -1,0 +1,25 @@
+.image {
+    position: absolute;
+    bottom: 50%;
+    right: 50%;
+    transform: translate(50%, 50%);
+    width: 100px;
+    height: 100px;
+}
+#z2 {
+    display: none;
+}
+h2 {
+    text-align: center;
+}
+#end {
+    position: fixed;
+    bottom: 0;
+    left: 48%;
+    font-size: 15px;
+}
+
+body {
+    background-color: black;
+    color: white;
+}
