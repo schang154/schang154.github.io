@@ -1,0 +1,75 @@
+body {
+    background-color: antiquewhite;
+}
+li {
+    color:black;
+    float: left;
+    } 
+p {
+    color: #414040; font-size:120%;
+    } 
+a {
+    color: black; text-decoration: none;
+    }
+li a {
+    display: inline-block;
+    color: white;
+    text-align: center;
+    padding: 20px;
+    text-decoration: none;
+}
+.menu {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    list-style-type: none;
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+    background-color: #333333;
+}
+li a:hover {
+    background-color: darkgray;
+}
+body h2 {
+    color: rgb(16, 3, 66); 
+    font-family: georgia;
+    font-size: 300%; 
+    text-align: center; 
+    background-color: white; 
+    border:5px dotted black;
+}
+#self {
+    width: 200px; 
+    height: 200px;
+    float: left;
+    padding: 10px;
+}
+.content::after {
+    content: "";
+    clear: both;
+    display: table;
+}
+.content {
+    margin-top: 100px;
+}
+.box {
+    float: left;
+    width: 45%;
+    overflow: auto;
+    margin: 20px;
+}
+#intro p {
+    max-width: 600px;
+}
+.courses {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+#intro div {
+    float: right;
+}
+div .class a {
+    display: block;
+}
