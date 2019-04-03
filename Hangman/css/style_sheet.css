@@ -71,17 +71,13 @@ button:disabled{
 }
 
 #copyright{  
-  position: relative;
-  bottom: -280px;
-  margin: 0px;
+  /*position: absolute;*/
+  /*bottom: 0;*/
+  color:orangered;
+  margin: auto;
 }
+#copyright p {font-size: 16px}
 
-#copyright p {
-	/*text-align: center;*/
-	font-size: 16px;
-    color: red;
-    margin: 0px;
-}
 #copyright p:hover {
 	color:yellow;
 	-webkit-transition-duration: 1s;
@@ -91,6 +87,7 @@ button:disabled{
 
 #leaderboard {
 	color: red;
-	position: relative;
-	bottom: -100px;
+    margin: auto;
+    font-size:16px;
+  margin-top: 20px;
 }
