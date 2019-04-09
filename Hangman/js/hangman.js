@@ -18,6 +18,7 @@ let lives = 7;
 let score = 0;
 let count = 0;
 let playerList = [];
+let name
 
 document.getElementById("lives").innerHTML = "Lives: " + lives;
 document.getElementById("score").innerHTML = "Score: " + score;
@@ -76,7 +77,7 @@ function generateButtons() {
 }
 
 function displayScore() {
-    let name = prompt('Enter your name:');
+    name = prompt('Enter your name:');
     document.getElementById('display').innerHTML = name + ', your score is ' + score;
 }
 
