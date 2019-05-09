@@ -1,0 +1,160 @@
+html, body {
+    overflow-x: hidden;
+}
+
+body {
+    margin: 0;
+    position: relative;
+}
+
+/* The Modal (background) */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 10; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 1280px; /* Full width */
+    height: 800px; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgba(0, 0, 0, 0.6); /* Black w/ opacity */
+    max-width: 100%;
+    max-height: 100%;
+}
+
+/* Inventory modal*/
+
+/* Inventory Modal title */
+.inventory-modal-title {
+    color: white;
+    text-align: center;
+    clear: both;
+}
+
+/* Modal Content */
+.inventory-modal-content {
+    background-color: black;
+    margin: auto; /*centered from vertically and horizontally */
+    padding: 20px;
+    opacity: 0.7;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 70%;
+    height: 70%;
+    transform: translate(-50%, -50%);
+    overflow: auto;
+}
+
+/* All Buttons div*/
+#items {
+    text-align: center;
+    max-width: 100%;
+    margin: auto;
+}
+
+/* Individual Buttons */
+.empty {
+    position: relative;
+    background-color: darkgray;
+    background-size: cover;
+    opacity: 0.7;
+    margin: 5px 10px;
+    width: 130px;
+    height: 130px;
+}
+
+.filled {
+    position: relative;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    margin: 5px 10px;
+    width: 130px;
+    height: 130px;
+}
+
+
+/* The Close Button */
+.close {
+    color: #aaaaaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+/*CSS for journal*/
+
+#journalbody {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+/*journal modal content*/
+
+.journal_p{
+    font-family: 'Paprika';
+}
+
+#journal_p_left{
+    padding-right: 10%;
+    padding-left: 20%;
+    padding-top: 10%;
+    padding-bottom: 5%;
+    font-size: 1.5em;
+}
+
+#journal_p_right{
+    padding-right: 20%;
+    padding-left: 10%;
+    padding-top: 10%;
+    padding-bottom: 5%;
+    font-size: 1.5em;
+}
+
+
+.modal-book {
+    position: absolute;
+    background: url("https://storage.needpix.com/rsynced_images/journal-1577764_1280.png");
+    background-size: 100% 100%; /*width height*/
+    margin: auto; /*center div*/
+    /*border: 1px solid black; */
+    width: 70%; /*percentage of screen filled by modal*/
+    height: 70%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    overflow: auto;
+}
+
+/*close btn*/
+.x {
+    color: black;
+    /*float: right;*/
+    position: absolute;
+    font-size: 28px;
+    font-weight: bold;
+    /*padding-right: 50px;*/
+    /*padding-top: 20px;*/
+    right: 8%;
+    top: 10%;
+    z-index: 1;
+}
+
+.close:hover, .x:hover,
+.close:hover, .x:focus {
+    color: red;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.column {
+    float: left;
+    width: 50%;
+}
+
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+/*end of css for journal*/
