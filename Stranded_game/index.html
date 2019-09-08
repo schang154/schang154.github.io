@@ -2,14 +2,132 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
-<!--    <meta name="viewport" content= "width=device-width, maximum-scale=0.5">-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0 user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
     <title>Stranded</title>
-    <script src="https://cdn.jsdelivr.net/npm/phaser@3.11.0/dist/phaser.js"></script>
-    <script src="demo_phaser_by_josh/phaser.js"></script>
-    <script src="demo_phaser_by_josh/Narration.js"></script>
-    <link rel="stylesheet" type="text/css"  href="css_dir/sidebar.css">
+    <link rel="stylesheet" type="text/css" href="css_dir/index.css">
+
+    <!-- Phaser3 -->
+    <script src="https://cdn.jsdelivr.net/npm/phaser@3.17.0/dist/phaser.js"></script>
+    <!-- Phaser3 END-->
+
+    <!-- Firebase -->
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/6.0.2/firebase-app.js"></script>
+
+    <!-- Initialize Firebase -->
+    <script src="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.0.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.0.1/firebase-database.js"></script>
+
+    <!-- Add the standard Performance Monitoring library -->
+    <script src="https://www.gstatic.com/firebasejs/6.0.2/firebase-performance.js"></script>
+
+    <!-- UI for Sign In Modal-->
+    <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.css" />
+    
+    <!-- Firebase END-->
 </head>
 <body>
+    <script src="js_dir/setup_firebase_stranded.js"></script>
+
+    <div id="loginModal" class="modal" style="display: none;">
+        <div><span class="close">&times;</span><br><br></div>
+        <div id="firebaseui-auth-container"></div>
+        <div id="loader">Loading...</div>
+    </div>
+
+    <div id="creditsModal" class="modal" style="display: none;">
+        <div><span id="creditsClose">&times;</span><br><br></div>
+        <p><br>SOUNDS/MUSIC<br><br>
+            Main Menu Theme:
+            Shiro (Instrumental) by Aussens@iter (c) copyright 2017 Licensed under a Creative Commons Attribution (3.0) license.
+            http://dig.ccmixter.org/files/tobias_weber/56795 Ft: Hans Montgomery Atom
+            <br><br>
+            Game-play loop:
+            Between Worlds (Instrumental) by Aussens@iter (c) copyright 2017 Licensed under a Creative Commons Attribution (3.0)
+            license. http://dig.ccmixter.org/files/tobias_weber/56664 Ft: (Smiling Cynic)
+            <br><br>
+            "Hard Shoe"
+            -Recorded by Daniel Simion
+        </p>
+    </div>
+
+    <div id="eggModal" class="modal" style="display: none;">
+        <div><span id="eggClose">&times;</span><br><br></div>
+        <img src="images/JTBhangra_Short.gif" alt="easterEgg" style="width: 50vw; height: 50vh;" id="easterEggModal">
+    </div>
+
+    <div id="aboutUsModal" class="modal" style="display: none;">
+        <div><span id="aboutClose">&times;</span><br><br></div>
+        <table>
+            <tr>
+                <td colspan="2">
+                    Our Story:<br>
+                    We are Team EGG 11, a BCIT student group comprised of five members. Our game is “Stranded”, a
+                    survival game that teaches user about EcoCity standards through survival on the island.
+                    Here are our bios:
+                    <br><br>
+                </td>
+            </tr>
+            <tr>
+                <td><img src="images/aboutPictures/thobu.jpg" alt="" class="picture"></td>
+                <td class="description">Thomas Bui<br>The inspiration for this project came from my fascination with
+                    the outdoors. I had always wondered how different survival would be in the present day. When people
+                    think of survival games, they think of the wilderness untouched by human beings. However, this is
+                    no longer the case. Many islands around the world are littered with trash brought from the tides.
+                    Some of the most isolated jungle has trash left behind by tourists and campers. I wanted to make
+                    this game to show how different survival would be in these situations. I also thought it would be a
+                    fun thing to test my technical skill.
+                </td>
+            </tr>
+            <tr>
+                <td><img src="images/aboutPictures/jampi.png" alt="" class="picture"></td>
+                <td class="description">James Pike<br>In the development of stranded I took on the lead designer role.
+                    My training in design is very minimal actually and comes almost entirely from high school arts
+                    classes. Previously I have taken accounting courses at BCIT and graduated with a Certificate in
+                    Business Management, also from BCIT. Not too long ago I was watching the news when there was
+                    mention of a patch of garbage in the pacific ocean. This patch of garbage, the Great Pacific
+                    Garbage Patch, was estimated to be around the size of Texas. This is misleading as it is not a
+                    solid stretch of garbage but rather an accumulation of various pieces of trash, with a large
+                    majority being microplastics. Nevertheless I found this to be worrying and this is a large
+                    inspiration towards why I agreed to work on Stranded, since it follows a similar idea.
+                </td>
+            </tr>
+            <tr>
+                <td><img src="images/aboutPictures/shihu.jpg" alt="" class="picture"></td>
+                <td class="description">Shih-Hung Chang<br>We could get rescued if stranded on the island; yet we need
+                    effort from every single one of us to “rescue” ourselves from this polluted environment. A
+                    highlight of my previous career was using technology to inform important decisions and drive
+                    strategy. I observed that I could be much more effective if I developed programming and database
+                    management skills. This led me to pursue additional education through BCIT's Computer Systems
+                    diploma.
+                </td>
+            </tr>
+            <tr>
+                <td><img src="images/aboutPictures/joski.png" alt="" class="picture"></td>
+                <td class="description">Josh Kim<br>As a person who has no previous experience in computer-related
+                    fields, this project gave me the great privilege in developing my first game with a great team.
+                    Also, it gave me a chance to involve in the awareness campaign, EcoCity. During the development of
+                    the game, as a father of two, I have been thinking about what would I tell my children in regard to
+                    environmental issues. The game "Stranded" has some messages that I would want to pass to them:
+                    appreciating the clean and safe environment, raising consequences of ecological collapse, teaching
+                    how to maintain and keep a healthy environment, etc. Although I couldn't implement all that I
+                    wanted to say in the game due to the limited time and resources, this is the small step for myself
+                    to be part of the EcoCity community to preserve and restore the prosperous environment and
+                    prosperous city.
+                </td>
+            </tr>
+            <tr>
+                <td><img src="images/aboutPictures/calya.jpg" alt="" class="picture"></td>
+                <td class="description">Calvin Yam<br>I wanted to let the player address survival needs and threats
+                    from pollution. ‘Stranded’ highlights the pollution issue by isolating it to one island. I was able
+                    to learn new practices and code more efficiently with my teammates.</td>
+            </tr>
+        </table>
+    </div>
+
+
     <!-- The Inventory Modal -->
     <div id="inventoryModal" class="modal" style="display: none;">
 
@@ -17,8 +135,8 @@
         <div class="inventory-modal-content">
             <!-- The Modal header -->
             <div class="inventory-modal-header">
-                <span class="close">&times;</span>
-                <h2 class="inventory-modal-title">Inventory</h2>
+                <span id="iclose" class="close">&times;</span>
+                <h3 class="inventory-modal-title">Inventory</h3>
             </div>
             <div id="items"></div>
         </div>
@@ -30,41 +148,38 @@
         <!--Modal content-->
         <div class="modal-book">
             <div class="column">
-                <p id="journal_p_left" class="journal_p">Lorem ipsum dolor sit amet, consectetur
-                    adipiscing elit, sed do eiusmod tempor incididunt ut
-                    labore et dolore magna aliqua. Ut enim ad minim veniam,
-                    quis nostrud exercitation ullamco laboris nisi ut
-                    aliquip ex ea commodo consequat.</p>
+                <div class="title">item</div>
+                    <div class="tab" id="tab" >
+                        <div class="items">
+                            <!-- create craftables from Quest obj here -->
+                        </div>
+                        <div class="checkboxes">
+                            <!-- create checkmarks here -->
+                        </div>
+                    </div>
             </div>
+
             <div class="column">
+                <div class="title">materials</div>
                 <span class="x">&times;</span>
-                <p id="journal_p_right" class="journal_p">Lorem ipsum dolor sit amet, consectetur
-                    adipiscing elit, sed do eiusmod tempor incididunt ut
-                    labore et dolore magna aliqua. Ut enim ad minim veniam,
-                    quis nostrud exercitation ullamco laboris nisi ut
-                    aliquip ex ea commodo consequat.</p>
+
+                    <div id = "content">
+                    <!-- create requirements from Quest obj here -->
+                    </div>
+
+                    <div id = "diagram_here">
+                        <img id="diagram" src="images/sidebar/sticky.png" alt="">
+                    </div>
             </div>
         </div>
+        <!--should be always visible-->
+        <button id="craft"><a>Craft</a></button>
     </div>
 
-<!--    <script>-->
-<!--        var win = new Ext.Window({-->
-<!--            title: 'Test',-->
-<!--            x: 100,-->
-<!--            y: 100,-->
-<!--            width: 100,-->
-<!--            height: 100-->
-<!--        });-->
-<!--        win.show();-->
 
-<!--        Ext.EventManager.on(window, 'scroll', function(){-->
-<!--            win.setPosition(100, (document.documentElement || document.body).scrollTop + 100);-->
-<!--        }, window, {buffer: 50});-->
-<!--    </script>-->
-
-    <script src="js_dir/inventory.js" type='module'></script>
-    <script src="js_dir/Journal.js"></script>
-    <script src='js_dir/environStarter.js' type='module'> </script>
+    <script type='module' src='./js_dir/environStarter.js' > </script>
+    <script src="./js_dir/authentication.js"></script>
+    <script src="./js_dir/create_user_stranded.js"></script>
 
 </body>
 </html>

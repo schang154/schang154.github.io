@@ -1,35 +1,33 @@
-/* Start the game */
-
-import {IndexScene} from "./scenes/IndexScene.js";
+/* Start the Phaser game*/
 import {Inventory} from "./inventory.js";
+import {Journal} from "./Journal.js";
+import {GameEnvironment} from "./GameEnvironment.js"
 
-// contruct an inventory
+// contruct an inventorys
 Inventory.constructInventory();
 
-var config = {
-    type: Phaser.AUTO,
-    parent: 'Stranded',
-    width: 1280,
-    height: 800,
-    scene: IndexScene
-};
-
-var game = new Phaser.Game(config);
+// start Phaser
+GameEnvironment.constructGame();
 
 /********************************************* */
 
 /* Shared resources */
-
-//when user clicks outside modal/dropdown, close
+// //when user clicks outside modal/dropdown, close modals
 window.onclick = function(event) {
 
-    //when user clicks outside modal, close
-    if (event.target === Journalmodal) {
-        Inventory.close(Journalmodal);
+    if (event.target === journalModal) {
+        Journal.close();
     }
     if (event.target === inventoryModal) {
-        Inventory.close(inventoryModal);
+        Inventory.close();
     }
-}
+
+};
+
+
+//hook up crafting button to requirement_checker
+let craft = document.getElementById("craft");
+
+craft.onclick = () => Journal.craftObj();
 
 

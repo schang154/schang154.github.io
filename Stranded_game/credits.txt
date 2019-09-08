@@ -1,0 +1,25 @@
+CREDITS
+
+IMAGES
+
+SOUNDS/MUSIC
+
+For Shiro (Main Menu Theme):
+Shiro (Instrumental) by Aussens@iter (c) copyright 2017 Licensed under a Creative Commons Attribution (3.0) license.
+ http://dig.ccmixter.org/files/tobias_weber/56795 Ft: Hans Montgomery Atom
+Code:
+<div class="attribution-block"><a href="http://dig.ccmixter.org/files/tobias_weber/56795">Shiro (Instrumental)</a> by
+Aussens@iter (c) copyright 2017 Licensed under a Creative Commons
+<a href="http://creativecommons.org/licenses/by/3.0/">Attribution (3.0)</a> license. Ft: Hans Montgomery Atom</div>
+
+For Between Worlds (Gameplay loop):
+Between Worlds (Instrumental) by Aussens@iter (c) copyright 2017 Licensed under a Creative Commons Attribution (3.0)
+license. http://dig.ccmixter.org/files/tobias_weber/56664 Ft: (Smiling Cynic)
+<div class="attribution-block"><a href="http://dig.ccmixter.org/files/tobias_weber/56664">Between Worlds (Instrumental)
+</a> by Aussens@iter (c) copyright 2017 Licensed under a Creative Commons
+<a href="http://creativecommons.org/licenses/by/3.0/">Attribution (3.0)</a> license. Ft: (Smiling Cynic)</div>
+
+"Hard Shoe"
+-Recorded by Daniel Simion 
+
+TECHNOLOGY

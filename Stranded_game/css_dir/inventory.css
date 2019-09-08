@@ -1,0 +1,65 @@
+/*CSS for inventory*/
+
+/* Inventory Modal title */
+.inventory-modal-title {
+    color: white;
+    text-align: center;
+    clear: both;
+}
+
+/* Modal Content */
+.inventory-modal-content {
+    background-color: black;
+    margin: auto; /*centered from vertically and horizontally */
+    padding: 20px;
+    opacity: 0.7;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 70%;
+    height: 70%;
+    transform: translate(-50%, -50%);
+    overflow: auto;
+}
+
+/* All Buttons div*/
+#items {
+    text-align: center;
+    max-width: 100%;
+    margin: auto;
+}
+
+/* Individual Buttons */
+.empty,
+.filled {
+    position: relative;
+    background-color: darkgray;
+    background-size: cover;
+    opacity: 0.7;
+    margin: 5px;
+    width: 10vw;
+    height: 10vw;
+}
+
+.filled {
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+/* The tool tip text */
+.toolTipText {
+    z-index: 1;
+    background-color: rgb(255,255,255, 0.6);
+    visibility: hidden;
+    padding: 2px 5px;
+    font-size: 20px;
+}
+
+/* The Close Button */
+.close {
+    color: #aaaaaa;
+    float: right;
+    font-size: 48px;
+    font-weight: bold;
+}

@@ -1,0 +1,21 @@
+/** For the menu and firebase sign up */
+h2, h3, #loader, #firebaseui-auth-container {
+    text-align: center;
+    z-index: 1;
+}
+
+#title {
+    max-width: 100%;
+    height: auto;
+    text-align: center;
+
+}
+
+#container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-height: 100%;
+    max-width: 100%;
+}
