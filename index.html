@@ -1,73 +1,178 @@
 <!DOCTYPE html>
-<html lang="eng">
+<html>
+<title>Something about Shih-Hung</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+    body, h1,h2,h3,h4,h5,h6 {font-family: "Montserrat", sans-serif}
+    .w3-row-padding img {margin-bottom: 12px}
+    /* Set the width of the sidebar to 120px */
+    .w3-sidebar {width: 120px;background: #fff;}
+    /* Add a left margin to the "page content" that matches the width of the sidebar (120px) */
+    #main {margin-left: 120px}
+    /* Remove margins from "page content" on small screens */
+    @media only screen and (max-width: 600px) {#main {margin-left: 0}}
+</style>
+<body class="w3-white">
 
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <title>Shih-Hung's Personal Page</title>
-        <link rel="stylesheet" type="text/css" href="css/profile.css">
-    </head>
+<!-- Icon Bar (Sidebar - hidden on small screens) -->
+<nav class="w3-sidebar w3-bar-block w3-small w3-hide-small w3-center">
+    <!-- Avatar image in top left corner -->
+    <img src="/w3images/avatar_smoke.jpg" style="width:100%">
+    <a href="#" class="w3-bar-item w3-button w3-padding-large w3-white">
+        <i class="fa fa-home w3-xxlarge"></i>
+        <p>HOME</p>
+    </a>
+    <a href="#about" class="w3-bar-item w3-button w3-padding-large w3-white">
+        <i class="fa fa-user w3-xxlarge"></i>
+        <p>ABOUT</p>
+    </a>
+    <a href="#contact" class="w3-bar-item w3-button w3-padding-large w3-white">
+        <i class="fa fa-envelope w3-xxlarge"></i>
+        <p>CONTACT</p>
+    </a>
+</nav>
 
-    <body>
-        <div>
-        <ul class="menu">
-            <li><a>Home</a></li>
-            <li><a>Resume</a></li>
-            <li><a>Courses Taken</a></li>
-            <li><a href="https://bcit.ca">BCIT</a></li>
-            <li><a href="https://www.cartoonstock.com/directory/c/computer_science.asp">Tech Joke</a></li>
-            <li><a href="http://shchang.website/Zombie">Zombie Game</a></li>
-            <li><a href="buttons.html">Buttons</a></li>
+<!-- Navbar on small screens (Hidden on medium and large screens) -->
+<div class="w3-top w3-hide-large w3-hide-medium" id="myNavbar">
+    <div class="w3-bar w3-white w3-opacity w3-hover-opacity-off w3-center w3-small">
+        <a href="#" class="w3-bar-item w3-button" style="width:25% !important">HOME</a>
+        <a href="#about" class="w3-bar-item w3-button" style="width:25% !important">ABOUT</a>
+<!--        <a href="#photos" class="w3-bar-item w3-button" style="width:25% !important">PHOTOS</a>-->
+        <a href="#contact" class="w3-bar-item w3-button" style="width:25% !important">CONTACT</a>
+    </div>
+</div>
+
+<!-- Page Content -->
+<div class="w3-padding-large" id="main">
+    <!-- Header/Home -->
+    <header class="w3-container w3-padding-32 w3-center w3-white" id="home">
+        <h1 class="w3-jumbo"><span class="w3-hide-small">I'm</span> Shih-Hung.</h1>
+        <p>BCIT CST Term4 Student</p>
+        <img src="/w3images/man_smoke.jpg" alt="boy" class="w3-image" width="992" height="1108">
+    </header>
+
+    <!-- About Section -->
+    <div class="w3-content w3-justify w3-text-grey w3-padding-64" id="about">
+        <h2 class="w3-text-dark-grey">My Name</h2>
+        <hr style="width:200px" class="w3-opacity">
+        <p>A highlight of my previous career as a researcher was using technology to inform important decisions
+            and drive strategy. In my last role as a Service Supervisor, I furthered my experience in project
+            management, data analytics, and client relationship building but observed that I could be much more
+            effective in analytics if I developed programming skill. This led me to pursue additional education
+            through BCIT's Computer Systems diploma.</p>
+        <h3 class="w3-padding-16 w3-text-dark-grey">My Classes</h3>
+        <p class="w3-wide"><a href="COMP4537.html">COMP4537 - Internet Software Architecture</p>
+        <p class="w3-wide">COMP4948 - Predictive Machine Learning </p>
+        <p class="w3-wide">COMP4949 - Big Data Analytic Methods</p>
+        <p class="w3-wide">COMP4735 - Operation Systems</p>
+        <p class="w3-wide">COMP4800 - Practicum</p>
+        <p class="w3-wide">BLAW3600 - Computers and the Law</p>
+
+        <h3 class="w3-padding-16 w3-text-dark-grey">My Skills</h3>
+        <p class="w3-wide">Data Visualization</p>
+        <p class="w3-wide">Data Manipulation</p>
+        <p class="w3-wide">Predictive Analytics</p>
+        <p class="w3-wide">Programming Languages</p>
+        <ul>
+            <li>Python: Intermediate</li>
+            <li>R: Intermediate</li>
+            <li>SAS: Intermediate</li>
+            <li>SQL: Intermediate</li>
+            <li>Microsoft Excel: Advanced</li>
+            <li>Java: Intermediate</li>
+            <li>Javacript: Intermediate</li>
+            <li>C: Developing</li>
         </ul>
-        </div>
-        <div class="content">
-        <h2>Welcome to Shih-Hung's Page</h2>
-        <div class="box" id="intro">
-        <img id="self" src="images/self.jpg" alt="This is Shih-Hung's photo.">
-        <p>Hello, viewers. My name is <b><i>Shih-Hung Chang</i></b>. A highlight of my previous career as a researcher was using technology to inform important decisions and drive strategy. In my last role as a Service Supervisor, I furthered my experience in project management and client relationship building but observed that I could be much more effective if I developed programming and database management skills. This led me to pursue additional education through BCIT's Computer Systems diploma. My detailed resume is <a href="ShihhungIvanChang_CV.pdf">here</a>, or go to my <a href="resume.html">resume</a>.<br></p>
-        </div>
-            <div class="box">
-            <p>Followed is the list of courses I am currently taking:</p>
-            <ul class="courses">
-                <a href="https://www.bcit.ca/study/outlines/20191086123">
-                    <div style="background-color:rgb(247, 208, 150);">
-                    <li style="color:rgb(52, 23, 167);"><b>Applied Mathematics</b></li>
-                    <br>Comp 1113 is partially discrete mathematics, partially an introduction to linear equations. The purpose of this course is to give a strong foundation for future technical and programming courses. The course is divided into three parts: (1) Boolean algebra and design of logic circuits; (2) number systems and data representation; and (3) functions, linear equations, vectors and matrices.
-                    </div></a>
-                <a href="https://www.bcit.ca/study/outlines/20191086130">
-                    <div style="background-color:lightgreen;">
-                    <li><b>Biz Analysis and System Design</b></li>
-                    <br>Business Analysis and Systems Design is the study of concepts, processes and tools that professionals use to plan and develop information systems to industry standards. We learn how to ask implicit questions, to create and document communication plans and to make better decisions prior to creating a software system.
-                    </div></a>
-                <a href="https://www.bcit.ca/study/outlines/20191086120">
-                    <div style="background-color:rgb(235, 255, 148); border:2px dashed black">
-                    <li><b>Business Communication</b></li>
-                    <br>Information technology professionals spend time each day communicating orally and in writing with their supervisors, colleagues and clients. As problem-solvers and entrepreneurs in industry, you need to communicate quickly, clearly, and effectively. This course will teach you how to be a professional and efficient communicator at work.
-                    </div></a>
-                <a href="https://www.bcit.ca/study/outlines/20191086129">
-                    <div style="background-color:lightblue; border:2px dotted black">
-                    <li><b>Intro to Web Development</b></li>
-                    <br>This is a web design and programming course with an emphasis on good planning, interface design, multimedia, client-side scripting with Javascript, server-side scripting, and best practices.
-                    </div></a>
-                <a href="https://www.bcit.ca/study/outlines/20191086126">
-                    <div style="background-color:palevioletred;">
-                    <li><b>Programming Methods</b></li>
-                    <br>This hands-on course is the foundation for all future programming courses and complements COMP 1536 and COMP 1910. This course introduces the fundamental concepts of programming including design, development, testing, debugging simple programs, as well as error-handling, and problem solving.
-                    </div></a>
-                <a href="https://www.bcit.ca/study/outlines/20191086134" >
-                    <div style="background-color:rgb(237, 191, 247);">
-                    <li><b>Project 1</b></li>
-                    <br>Students learn to work in a collaborative environment and complete a small-scale software project: a web app. Design and managing of implementation concepts will be introduced: User Experience Design (XSD) and Agile methodology. The course takes students through the UX design process which includes creating and administering surveys & interviews, creating personas and user stories, designing wireframes, and performing user tests with a developed implementation that is based on the UX design process. Students will use the Agile methodology to manage the software process. Software management workflow also includes using version control, version control basics, utilizing web technologies.
-                    </div></a>
-                <a href="https://www.bcit.ca/study/outlines/20191086121">
-                    <div style="background-color:rgb(131, 180, 243);">
-                    <li><b>CST Program Fundamentals</b></li>
-                    <br>The course covers topics of importance to new and continuing students on how to balance school and related activities to enhance chances of success in their academic careers. In this course students will learn a variety of different techniques to improve study habits, note taking, and time management skills. The class will also present other topics of interest to CST students and will introduce students to various support systems at BCIT.
-                    </div></a>
-            </ul>
-            </div>
-        </div>
-    </body>
+        <br>
 
+<!--        <div class="w3-row w3-center w3-padding-16 w3-section w3-light-grey">-->
+<!--            <div class="w3-quarter w3-section">-->
+<!--                <span class="w3-xlarge">11+</span><br>-->
+<!--                Partners-->
+<!--            </div>-->
+<!--            <div class="w3-quarter w3-section">-->
+<!--                <span class="w3-xlarge">55+</span><br>-->
+<!--                Projects Done-->
+<!--            </div>-->
+<!--            <div class="w3-quarter w3-section">-->
+<!--                <span class="w3-xlarge">89+</span><br>-->
+<!--                Happy Clients-->
+<!--            </div>-->
+<!--            <div class="w3-quarter w3-section">-->
+<!--                <span class="w3-xlarge">150+</span><br>-->
+<!--                Meetings-->
+<!--            </div>-->
+<!--        </div>-->
+
+        <button class="w3-button w3-light-grey w3-padding-large w3-section">
+            <i class="fa fa-download"></i> Download Resume
+        </button>
+
+        <!-- End About Section -->
+    </div>
+
+<!--    &lt;!&ndash; Portfolio Section &ndash;&gt;-->
+<!--    <div class="w3-padding-64 w3-content" id="photos">-->
+<!--        <h2 class="w3-text-light-grey">My Photos</h2>-->
+<!--        <hr style="width:200px" class="w3-opacity">-->
+
+<!--        &lt;!&ndash; Grid for photos &ndash;&gt;-->
+<!--        <div class="w3-row-padding" style="margin:0 -16px">-->
+<!--            <div class="w3-half">-->
+<!--                <img src="/w3images/wedding.jpg" style="width:100%">-->
+<!--                <img src="/w3images/rocks.jpg" style="width:100%">-->
+<!--                <img src="/w3images/sailboat.jpg" style="width:100%">-->
+<!--            </div>-->
+
+<!--            <div class="w3-half">-->
+<!--                <img src="/w3images/underwater.jpg" style="width:100%">-->
+<!--                <img src="/w3images/chef.jpg" style="width:100%">-->
+<!--                <img src="/w3images/wedding.jpg" style="width:100%">-->
+<!--                <img src="/w3images/p6.jpg" style="width:100%">-->
+<!--            </div>-->
+<!--            &lt;!&ndash; End photo grid &ndash;&gt;-->
+<!--        </div>-->
+<!--        &lt;!&ndash; End Portfolio Section &ndash;&gt;-->
+<!--    </div>-->
+
+    <!-- Contact Section -->
+    <div class="w3-padding-64 w3-content w3-text-dark-grey" id="contact">
+        <h2 class="w3-text-dark-grey">Contact Me</h2>
+        <hr style="width:200px" class="w3-opacity">
+
+        <div class="w3-section">
+            <p><i class="fa fa-map-marker fa-fw w3-text-white w3-xxlarge w3-margin-right"></i> Vancouver, BC., Canada</p>
+            <p><i class="fa fa-envelope fa-fw w3-text-white w3-xxlarge w3-margin-right"> </i> Email: shchang1128@gmail.com</p>
+        </div><br>
+<!--        <p>Let's get in touch. Send me a message:</p>-->
+
+<!--        <form action="/action_page.php" target="_blank">-->
+<!--            <p><input class="w3-input w3-padding-16" type="text" placeholder="Name" required name="Name"></p>-->
+<!--            <p><input class="w3-input w3-padding-16" type="text" placeholder="Email" required name="Email"></p>-->
+<!--            <p><input class="w3-input w3-padding-16" type="text" placeholder="Subject" required name="Subject"></p>-->
+<!--            <p><input class="w3-input w3-padding-16" type="text" placeholder="Message" required name="Message"></p>-->
+<!--            <p>-->
+<!--                <button class="w3-button w3-light-grey w3-padding-large" type="submit">-->
+<!--                    <i class="fa fa-paper-plane"></i> SEND MESSAGE-->
+<!--                </button>-->
+<!--            </p>-->
+<!--        </form>-->
+        <!-- End Contact Section -->
+    </div>
+
+    <!-- Footer -->
+    <footer class="w3-content w3-padding-64 w3-text-grey w3-xlarge">
+        <a href="https://ca.linkedin.com/in/shih-hung-chang-564024146"><i class="fa fa-linkedin w3-hover-opacity"></i>
+        <p class="w3-medium">Powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank" class="w3-hover-text-green">w3.css</a></p>
+        <!-- End footer -->
+    </footer>
+
+    <!-- END PAGE CONTENT -->
+</div>
+
+</body>
 </html>

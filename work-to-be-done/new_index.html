@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="eng">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Shih-Hung's Personal Page</title>
+    <link rel="stylesheet" type="text/css" href="new_index.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+    <script src="../js/html2canvas.min.js"></script>
+    <script defer src="../js/disintegrate.js"></script>
+    <script defer src="../js/snap.js"></script>
+</head>
+<body>
+    <!-- data-dis-reduction-factor: the lower the value, the more particles we get -->
+<!--    <img id="image" src="images/self.jpg" data-dis-type="simultaneous"-->
+<!--         data-dis-particle-type="thanosSnap"-->
+<!--         data-dis-reduction-factor="10">-->
+    <div id="wrapper">
+        <h2 id="monthly_title">Monthly Pass?</h2>
+        <div id="content">
+            <div id="decision-wrap">
+                <h3>Cost Comparison</h3>
+                <div id="withoutPass" class="decision">
+                    <h4>Without Pass</h4>
+                    <p id="without">0</p>
+                </div>
+                <div id="withPass" class="decision">
+                    <h4>With Pass</h4>
+                    <p id="with">0</p>
+                </div>
+                <div id="save-div">
+                    <p id="save"></p>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+        </footer>
+    </div>
+    <!-- The Modal -->
+    <div id="zoneModal" class="modal">
+        <span class="close">&times;</span>
+
+        <!-- Modal content -->
+        <div class="zone-modal-content"></div>
+
+    </div>
+    <script>
+
+        let monthlyPass = {
+            "questions": [
+                "1. How many days in a week do you work/ travel?",
+                <!-- Trigger/Open The Modal -->
+                `2. Which <a class="zone"> zone</a> do you live?`,
+                `3. Which <a class="zone"> zone</a> do you need to go?`,
+                "4. Do you take the bus, Skytrain, or both?",
+                "4a. If both, how many of them are within the same zone?",
+                "5. How many places, for example work office, do you usually visit in a day?"
+            ],
+
+            "travelMethod": [
+                "Bus",
+                "Skytrain",
+                "Both"
+            ],
+
+            "daysInAWeek": [1, 2, 3, 4, 5, 6, 7],
+
+            "zones": [1, 2, 3],
+
+            "visitDestinations": [...Array(11).keys()],
+
+            "transitFare": {
+                "1": 2.30,
+                "2": 3.35,
+                "3": 4.40
+            },
+
+            "monthlyPassFare": {
+                "1": 95,
+                "2": 128,
+                "3": 174
+            },
+
+            "footer": () => {
+                let time = new Date();
+                let copyright = document.createElement("small");
+                $("footer").append(copyright);
+                copyright.innerHTML = `Copyright &copy; ${time.getFullYear()} Shih-Hung Chang. All rights reserved.`;
+            },
+
+            "createQuestions": () => {
+                for (let i = 0; i < monthlyPass.questions.length; i++) {
+                    let question_wrap = document.createElement("div");
+                    let question_div = document.createElement("div");
+
+                    question_wrap.id = "question-wrap" + i;
+                    question_div.id = "question" + i;
+                    question_wrap.className = "question-wrap";
+                    question_div.className = "question";
+
+                    $("#content").append(question_wrap);
+                    $(`#question-wrap${i}`).append(question_div);
+
+                    document.getElementById("question" + i).innerHTML = monthlyPass.questions[i];
+                }
+            },
+            "createAnswerInput": ()=> {
+                let answer_input = document.getElementsByClassName("answer");
+
+                for (let i = 0; i < monthlyPass.questions.length; i++) {
+
+                    let answer_div = document.createElement("div");
+                    answer_div.className = "answer";
+                    $(`#question-wrap${i}`).append(answer_div);
+
+                    //append selection of choices to each corresponding question
+                    if (i === 0) answer_input[i].appendChild(monthlyPass.createSelection(monthlyPass.daysInAWeek));
+                    else if (i === 1 || i === 2) {
+                        answer_input[i].appendChild(monthlyPass.createSelection(monthlyPass.zones));
+                    }
+                    else if (i === 3) {
+                        answer_input[i].appendChild(monthlyPass.createSelection(monthlyPass.travelMethod));
+                    }
+                    else if (i === 5) {
+                        answer_input[i].appendChild(monthlyPass.createSelection(monthlyPass.visitDestinations));
+                    }
+                }
+
+                //assign id to each answer box
+                for (let j = 0; j < document.getElementsByTagName("select").length; j++) {
+                    document.getElementsByTagName("select")[j].id = "answer" + j;
+                }
+            },
+
+            "createSubmitBtn": ()=> {
+                let submitBtn = document.createElement("button");
+                submitBtn.id = "submit";
+                submitBtn.innerHTML = "Submit";
+                $('#content').append(submitBtn);
+                submitBtn.onclick = monthlyPass.needPassOrNot;
+            },
+
+            "createSelection": (arrayOfChoices) => {
+                let selectTag = document.createElement("select");
+                for (let i = 0; i < arrayOfChoices.length; i++) {
+                    let optionTag = document.createElement("option");
+                    optionTag.value = arrayOfChoices[i];
+                    optionTag.innerHTML = arrayOfChoices[i];
+                    selectTag.append(optionTag);
+                }
+                return selectTag;
+            },
+
+            "needPassOrNot": ()=> {
+                //display the calculated result
+                $("#decision-wrap").css('display', 'block');
+
+                let useFrequency = $("#answer0").val();
+                let zoneHome = $("#answer1").val();
+                let zoneDest = $("#answer2").val();
+                let travelMethod =  $("#answer3").val();
+                let totalNumOfVisitingPlaces = 1 + parseInt($("#answer4").val());
+                monthlyPass.calculateFare(travelMethod, useFrequency, totalNumOfVisitingPlaces, zoneHome, zoneDest);
+            },
+
+            "isZoneDifferent": (ans1, ans2) => {
+                return ans1 === ans2;
+            },
+
+            "zoneDifference": (ans1, ans2) => {
+                return Math.abs(ans1 - ans2)
+            },
+
+            "singleFarePrice": (ans1, ans2) => {
+                if (monthlyPass.isZoneDifferent(ans1, ans2)) {
+                    return monthlyPass.transitFare[1]
+                }
+                else {
+                    if (monthlyPass.zoneDifference(ans1, ans2) === 1) {
+                        return monthlyPass.transitFare[2]
+                    }
+                    else if (monthlyPass.zoneDifference(ans1, ans2) === 2) {
+                        return monthlyPass.transitFare[3]
+                    }
+                }
+            },
+
+            "monthlyPassCost": (ans1, ans2) => {
+                if (monthlyPass.isZoneDifferent(ans1, ans2)) {
+                    return monthlyPass.monthlyPassFare[1]
+                }
+                else {
+                    if (monthlyPass.zoneDifference(ans1, ans2) === 1) {
+                        return monthlyPass.monthlyPassFare[2]
+                    }
+                    else if (monthlyPass.zoneDifference(ans1, ans2) === 2) {
+                        return monthlyPass.monthlyPassFare[3]
+                    }
+                }
+            },
+
+            "calculateFare": (method, frequency, places ,ans1, ans2) => {
+                if (method === "Bus") {
+                    document.getElementById("without").innerHTML = "$" + Math.round(frequency * places * 4 * monthlyPass.singleFarePrice(ans1, ans1)*100)/100;
+                    console.log("method:", method, "frequency:", frequency, "places:", places, "ans1:", ans1, "ans2:", ans2);
+                    document.getElementById("with").innerHTML = "$" + monthlyPass.monthlyPassCost(ans1, ans1);
+                }
+                else if (method === "Skytrain" || method === "Both") {
+                    document.getElementById("without").innerHTML = "$" + Math.round(frequency * places * 4 * monthlyPass.singleFarePrice(ans1, ans2)*100)/100;
+                    console.log("method:", method, "frequency:", frequency, "places:", places, "ans1:", ans1, "ans2:", ans2);
+                    document.getElementById("with").innerHTML = "$" + monthlyPass.monthlyPassCost(ans1, ans2);
+                }
+            },
+
+        };
+
+        monthlyPass.createQuestions();
+        monthlyPass.createAnswerInput();
+        monthlyPass.createSubmitBtn();
+        monthlyPass.footer();
+
+        // Get ZONE modal
+        var modal = document.getElementById("zoneModal");
+
+        // Get the button that opens the modal
+        var btn = document.getElementsByClassName("zone");
+
+        // Get the <span> element that closes the modal
+        var span = document.getElementsByClassName("close")[0];
+
+        // When the user clicks on the button, open the modal
+        for (let i = 0; i<btn.length; i++) {
+            btn[i].onclick = () => {
+                modal.style.display = "block";
+            };
+        }
+
+        // When the user clicks on <span> (x), close the modal
+        span.onclick = () => {
+            modal.style.display = "none";
+        };
+
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = (event) => {
+            if (event.target === modal) {
+                modal.style.display = "none";
+            }
+        };
+
+    </script>
+</body>
+</html>
