@@ -6,9 +6,9 @@ const ANSWER_ORDER = ["a", "b", "c", "d"];
 const NUMBER_OF_QUESTION_DESIRED = 5;
 
 let questionBank = {"questions": {1:`<p>Which of the following is not correct about JavaScript?</p>`,
-                                  2: `<p><span class="red">var</span> a = 4;</p><p><span class="red">var</span> b = "5";</p><p><span class="red">var</span> sum = a + b;</p><p><span class="blue">console</span>.<span class="red">log</span>(sum);</p><p>What does the console print?</p>`,
-                                  3: `<p><span class="red">var</span> pens;</p><p>pens = ["red", "blue", "green", "orange"];</p><p><span class="red">var</span>  thirdPen = pens[3];</p><p><span class="blue">console</span>.<span class="red">log</span>(thirdPen);</p><p>What is the color of the third pen?</p>`,
-                                  4: `<p><span class="red">let</span> localVar = 5;</p><p><span class="red">if</span> (localVar) {</p><p>    <span class="red">let</span> localVar = "I'm different!\";</p><p>    <span class="blue">console</span>.<span class="red">log</span>("nested localVar: ", localVar);</p><p>}</p><p><span class="blue">console</span>.<span class="red">log</span>("logScope localVar: ", localVar);</p><p>What does the console prints?</p>`,
+                                  2: `<p><span class="red">var</span> a = 4;</p><p><span class="red">var</span> b = "5";</p><p><span class="red">var</span> sum = a + b;</p><p><span class="blue">console</span>.log(sum);</p><p>What does the console print?</p>`,
+                                  3: `<p><span class="red">var</span> pens;</p><p>pens = ["red", "blue", "green", "orange"];</p><p><span class="red">var</span>  thirdPen = pens[3];</p><p><span class="blue">console</span>.log(thirdPen);</p><p>What is the color of the third pen?</p>`,
+                                  4: `<p><span class="red">let</span> localVar = 5;</p><p><span class="red">if</span> (localVar) {</p><p>    <span class="red">let</span> localVar = "I'm different!\";</p><p>    <span class="blue">console</span>.log("nested localVar: ", localVar);</p><p>}</p><p><span class="blue">console</span>.log("logScope localVar: ", localVar);</p><p>What does the console prints?</p>`,
                                   5: `<p><span class="red">var</span> course = {</p><p>     title: "COMP4537",</p><p>     instructor: "Amir",</p><p>     term: 4</p><p>}</p><p>How do you get title of the course?</p>`},
                     "answers": {1: ["JavaScript is case sensitive.",
                                     "Whitespace matters.",
