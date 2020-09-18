@@ -12,7 +12,7 @@
 <!-- Icon Bar (Sidebar - hidden on small screens) -->
 <nav class="w3-sidebar w3-bar-block w3-small w3-hide-small w3-center">
     <!-- Avatar image in top left corner -->
-    <img src="./images/self_moz.png" style="width:100%" alt="self photo">
+    <img src="./images/self_moz.png" alt="self photo">
     <a href="#" class="w3-bar-item w3-button w3-padding-large w3-white">
         <i class="fa fa-home w3-xxlarge"></i>
         <p>HOME</p>
@@ -42,48 +42,53 @@
     <header class="w3-container w3-padding-32 w3-center w3-white" id="home">
         <h1 class="w3-jumbo"><span class="w3-hide-small">I'm</span> Shih-Hung</h1>
         <p>BCIT CST Term4 Student</p>
-        <img src="./images/self_moz.png" alt="self photo" class="w3-image" width="50%" height="50%">
+        <img src="./images/self_moz.png" alt="self photo" class="w3-image">
     </header>
 
     <!-- About Section -->
     <div class="w3-content w3-justify w3-text-grey w3-padding-64" id="about">
         <h2 class="w3-text-dark-grey">My Name</h2>
-        <hr style="width:200px" class="w3-opacity">
-        <p>A highlight of my previous career as a researcher was using technology to inform important decisions
+        <hr class="w3-opacity">
+        <p class="w3-">A highlight of my previous career as a researcher was using technology to inform important decisions
             and drive strategy. In my last role as a Service Supervisor, I furthered my experience in project
             management, data analytics, and client relationship building but observed that I could be much more
             effective in analytics if I developed programming skill. This led me to pursue additional education
             through BCIT's Computer Systems diploma.</p>
-        <h3 class="w3-padding-16 w3-text-dark-grey">My Classes</h3>
-        <p class="w3-large"><a href="./COMP4537/COMP4537.html">COMP4537 - Internet Software Architecture</a></p>
-        <p class="w3-large">COMP4948 - Predictive Machine Learning </p>
-        <p class="w3-large">COMP4949 - Big Data Analytic Methods</p>
-        <p class="w3-large">COMP4735 - Operation Systems</p>
-        <p class="w3-large">COMP4800 - Practicum</p>
-        <p class="w3-large">BLAW3600 - Computers and the Law</p>
+        <div id="myClassesContainer">
+            <h3 class="w3-padding-16 w3-text-dark-grey">My Classes</h3>
+            <p class="w3-large"><a href="./COMP4537/COMP4537.html">COMP4537 - Internet Software Architecture</a></p>
+            <p class="w3-large">COMP4948 - Predictive Machine Learning </p>
+            <p class="w3-large">COMP4949 - Big Data Analytic Methods</p>
+            <p class="w3-large">COMP4735 - Operation Systems</p>
+            <p class="w3-large">COMP4800 - Practicum</p>
+            <p class="w3-large">BLAW3600 - Computers and the Law</p>
+        </div>
 
-        <h3 class="w3-padding-16 w3-text-dark-grey">My Skills</h3>
-        <p class="w3-large">Data Visualization</p>
-        <p class="w3-large">Data Manipulation</p>
-        <p class="w3-large">Predictive Analytics</p>
-        <ul>
-            <li>Python: Intermediate</li>
-            <li>R: Intermediate</li>
-            <li>SAS: Intermediate</li>
-            <li>SQL: Intermediate</li>
-            <li>Microsoft Excel: Advanced</li>
-            <li>Java: Intermediate</li>
-            <li>C: Developing</li>
-        </ul>
-        <p class="w3-large">Web Development</p>
-        <ul>
-            <li>HTML: Intermediate</li>
-            <li>CSS: Intermediate</li>
-            <li>JavaScript: Intermediate</li>
-            <li>jQuery: Developing</li>
-            <li>Firebase: Developing</li>
-        </ul>
-        <br>
+        <div id="mySkillsContainer">
+            <h3 class="w3-padding-16 w3-text-dark-grey">My Skills</h3>
+            <p class="w3-large">Data Visualization</p>
+            <p class="w3-large">Data Manipulation</p>
+            <p class="w3-large">Predictive Analytics</p>
+            <ul>
+                <li>Python: Intermediate</li>
+                <li>R: Intermediate</li>
+                <li>SAS: Intermediate</li>
+                <li>SQL: Intermediate</li>
+                <li>Microsoft Excel: Advanced</li>
+                <li>Java: Intermediate</li>
+                <li>C: Developing</li>
+            </ul>
+            <p class="w3-large">Web Development</p>
+            <ul>
+                <li>HTML: Intermediate</li>
+                <li>CSS: Intermediate</li>
+                <li>JavaScript: Intermediate</li>
+                <li>jQuery: Developing</li>
+                <li>Firebase: Developing</li>
+            </ul>
+            <br>
+        </div>
+
 
         <button class="w3-button w3-light-grey w3-padding-large w3-section">
             <i class="fa fa-download"></i> Download Resume
@@ -95,7 +100,7 @@
     <!-- Contact Section -->
     <div class="w3-padding-64 w3-content w3-text-dark-grey" id="contact">
         <h2 class="w3-text-dark-grey">Contact Me</h2>
-        <hr style="width:200px" class="w3-opacity">
+        <hr class="w3-opacity">
 
         <div class="w3-section">
             <p><i class="fa fa-map-marker fa-fw w3-text-white w3-xxlarge w3-margin-right"></i> Vancouver, BC., Canada</p>
@@ -106,7 +111,7 @@
 
     <!-- Footer -->
     <footer class="w3-content w3-padding-64 w3-text-grey w3-xlarge">
-        <a href="https://ca.linkedin.com/in/shih-hung-chang-564024146"><i class="fa fa-linkedin w3-hover-opacity"></i></a>
+        <a href="https://linkedin.com/in/shihhung-chang"><i class="fa fa-linkedin w3-hover-opacity"></i></a>
         <p class="w3-medium">Powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank" class="w3-hover-text-green">w3.css</a></p>
         <!-- End footer -->
     </footer>
