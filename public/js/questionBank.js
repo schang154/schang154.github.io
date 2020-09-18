@@ -5,18 +5,11 @@ Question bank for lab1 exercise
 const ANSWER_ORDER = ["a", "b", "c", "d"];
 const NUMBER_OF_QUESTION_DESIRED = 5;
 
-let questionBank = {"questions": {1: "Which of the following is not correct about JavaScript?",
-                                  2: "var a = 4;\nvar b = \"5\";\nvar sum = a + b;\nconsole.log(sum);\n" +
-                                     "What does the console print?",
-                                  3: "var pens;\npens = [\"red\", \"blue\", \"green\", \"orange\"];\n" +
-                                     "var thirdPen = pens[3];\nconsole.log(thirdPen);\n" +
-                                     "What is the color of the third pen?",
-                                  4: "let localVar = 5;\nif (localVar) {\n    let localVar = \"I\'m different!\";\n" +
-                                     "    console.log(\"nested localVar: \", localVar);\n}\n" +
-                                     "console.log(\"logScope localVar: \", localVar);\n" +
-                                     "What does the console prints?",
-                                  5: "var course = {\n       title: \"COMP4537\",\n       instructor: \"Amir\",\n" +
-                                     "       term: 4\n}\nHow do you get title of the course?"},
+let questionBank = {"questions": {1:`<p>Which of the following is not correct about JavaScript?</p>`,
+                                  2: `<p><span class="red">var</span> a = 4;</p><p><span class="red">var</span> b = "5";</p><p><span class="red">var</span> sum = a + b;</p><p><span class="blue">console</span>.<span class="red">log</span>(sum);</p><p>What does the console print?</p>`,
+                                  3: `<p><span class="red">var</span> pens;</p><p>pens = ["red", "blue", "green", "orange"];</p><p><span class="red">var</span>  thirdPen = pens[3];</p><p><span class="blue">console</span>.<span class="red">log</span>(thirdPen);</p><p>What is the color of the third pen?</p>`,
+                                  4: `<p><span class="red">let</span> localVar = 5;</p><p><span class="red">if</span> (localVar) {</p><p>    <span class="red">let</span> localVar = "I'm different!\";</p><p>    <span class="blue">console</span>.<span class="red">log</span>("nested localVar: ", localVar);</p><p>}</p><p><span class="blue">console</span>.<span class="red">log</span>("logScope localVar: ", localVar);</p><p>What does the console prints?</p>`,
+                                  5: `<p><span class="red">var</span> course = {</p><p>     title: "COMP4537",</p><p>     instructor: "Amir",</p><p>     term: 4</p><p>}</p><p>How do you get title of the course?</p>`},
                     "answers": {1: ["JavaScript is case sensitive.",
                                     "Whitespace matters.",
                                     "No semicolon necessary at the end of each statement.",
@@ -43,8 +36,7 @@ class MultipleChoiceQuestion {
     questionElement() {
         // create question node
         let questionNode = document.createElement("DIV");
-        let questionContent = document.createTextNode(this.numberedQuestion());
-        questionNode.appendChild(questionContent);
+        questionNode.innerHTML = this.numberedQuestion();
         questionNode.setAttribute("CLASS", "questionTxt");
         return questionNode;
     }

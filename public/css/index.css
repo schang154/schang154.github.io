@@ -42,4 +42,14 @@ hr {
 .questionTxt {
     white-space: pre;
 }
+.questionTxt p {
+    margin: 0;
+}
 
+.red {
+    color: red;
+}
+
+.blue {
+    color: blue;
+}
