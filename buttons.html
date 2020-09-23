@@ -11,19 +11,6 @@
     </style>
 </head>
 <body>
-
-    <script>
-
-        function createBtn() {
-            for (let i=0; i<26; i++){
-                btn = document.createElement("button");
-                document.body.appendChild(btn);
-                btn.innerHTML = String.fromCharCode(65+i);
-                btn.onclick = function() {console.log("Button " + String.fromCharCode(65+i) + " was clicked.")}
-            }
-        }
-        createBtn(26);
-        
-    </script>
+    <script src="./public/js/createButtons.js"></script>
 </body>
 </html>

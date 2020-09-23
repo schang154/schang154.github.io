@@ -3,24 +3,24 @@ Question bank for lab1 exercise
  */
 
 const ANSWER_ORDER = ["a", "b", "c", "d"];
-const NUMBER_OF_QUESTION_DESIRED = 5;
 
 let questionBank = {"questions": {1:`<p>Which of the following is not correct about JavaScript?</p>`,
                                   2: `<p><span class="red">var</span> a = 4;</p><p><span class="red">var</span> b = "5";</p><p><span class="red">var</span> sum = a + b;</p><p><span class="blue">console</span>.log(sum);</p><p>What does the console print?</p>`,
                                   3: `<p><span class="red">var</span> pens;</p><p>pens = ["red", "blue", "green", "orange"];</p><p><span class="red">var</span>  thirdPen = pens[3];</p><p><span class="blue">console</span>.log(thirdPen);</p><p>What is the color of the third pen?</p>`,
                                   4: `<p><span class="red">let</span> localVar = 5;</p><p><span class="red">if</span> (localVar) {</p><p>    <span class="red">let</span> localVar = "I'm different!\";</p><p>    <span class="blue">console</span>.log("nested localVar: ", localVar);</p><p>}</p><p><span class="blue">console</span>.log("logScope localVar: ", localVar);</p><p>What does the console prints?</p>`,
                                   5: `<p><span class="red">var</span> course = {</p><p>     "title": "COMP4537",</p><p>     "instructor": "Amir",</p><p>     "term": 4</p><p>}</p><p>How do you get title of the course?</p>`},
-                    "answers": {1: ["JavaScript is case sensitive.",
-                                    "Whitespace matters.",
-                                    "No semicolon necessary at the end of each statement.",
-                                    "Use comments liberally."],
-                                2: ["9", "45", "undefined", "error"],
-                                3: ["red", "blue", "green", "orange"],
-                                4: ["nested localVar: I'm different!\nlogScope localVar: 5",
-                                    "nested localVar: I'm different!\nlogScope localVar: I'm different!",
-                                    "nested localVar: 5\nlogScope localVar: I'm different!",
-                                    "nested localVar: 5\nlogScope localVar: 5"],
-                                5: ["course.title()", "course.title", "course[title]", "course:title"]}
+                    "answerChoices": {1: ["JavaScript is case sensitive.",
+                                          "Whitespace matters.",
+                                          "No semicolon necessary at the end of each statement.",
+                                          "Use comments liberally."],
+                                      2: ["9", "45", "undefined", "error"],
+                                      3: ["red", "blue", "green", "orange"],
+                                      4: ["nested localVar: I'm different!\nlogScope localVar: 5",
+                                          "nested localVar: I'm different!\nlogScope localVar: I'm different!",
+                                          "nested localVar: 5\nlogScope localVar: I'm different!",
+                                          "nested localVar: 5\nlogScope localVar: 5"],
+                                      5: ["course.title()", "course.title", "course[title]", "course:title"]},
+                    "answerKeys": {1: 3, 2: 2, 3:  4, 4: 1, 5: 2}
 };
 
 class MultipleChoiceQuestion {
@@ -72,10 +72,14 @@ class MultipleChoiceQuestion {
 
 questionCreated = [];
 let quizElement = document.getElementById("quiz");
+let numberOFQuestions = prompt("How many questions would you like to answer?", "0 to 5");
 
-for (let i = 0; i < NUMBER_OF_QUESTION_DESIRED; i++) {
-    questionCreated[i] = new MultipleChoiceQuestion(i+1,
-                                                     questionBank.questions[i+1],
-                                                     questionBank.answers[i+1]);
-    quizElement.appendChild(questionCreated[i].displayQuestion());
+if (numberOFQuestions != null) {
+    for (let i = 0; i < numberOFQuestions; i++) {
+        let questionIndex = i + 1;
+        questionCreated[i] = new MultipleChoiceQuestion(questionIndex,
+            questionBank.questions[questionIndex],
+            questionBank.answerChoices[questionIndex]);
+        quizElement.appendChild(questionCreated[i].displayQuestion());
+    }
 }
