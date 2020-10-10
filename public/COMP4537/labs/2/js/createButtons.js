@@ -1,6 +1,6 @@
 let buttonContainer = document.getElementById("button-container");
 for (let i=0; i<26; i++){
-    btn = document.createElement("button");
+    let btn = document.createElement("button");
     buttonContainer.appendChild(btn);
     btn.style.height = "50px";
     btn.style.width = "50px";

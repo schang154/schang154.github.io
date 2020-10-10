@@ -1,5 +1,5 @@
 /*
-Question bank for lab1 exercise
+Question bank for lab2 exercise
  */
 
 const ANSWER_ORDER = ["a", "b", "c", "d"];
