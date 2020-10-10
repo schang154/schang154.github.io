@@ -53,3 +53,7 @@ hr {
 .blue {
     color: blue;
 }
+
+.w3-input {
+    max-width: max-content;
+}
