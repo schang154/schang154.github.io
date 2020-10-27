@@ -28,7 +28,9 @@ nav img {
 /* Remove margins from "page content" on small screens */
 @media only screen and (
 max-width: 600px
-) {#main {margin-left: 0}}
+) {#main {margin-left: 0}
+
+}
 
 #home img {
     width: 50%;
@@ -54,8 +56,74 @@ hr {
     color: blue;
 }
 
+#game-container {
+    justify-content: center;
+    margin-bottom: 10px;
+    width: auto;
+    display: flex;
+}
+
 #game-box {
     background: black;
-    height: fit-content;
+    height: 400px;
+    width: 400px;
+ }
+
+#grid-box {
+    background: transparent;
+    height: 100%;
     width: 100%;
+    grid-gap: 3px;
+    justify-content: center;
+    align-content: center;
+}
+
+.flip-card {
+    background-color: transparent;
+    perspective: 1000px;
+    padding: 2px;
+    float: left;
+
+}
+
+.flip-card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    transition: transform 0.6s;
+    transform-style: preserve-3d;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+}
+
+/*.flip-card:hover .flip-card-inner {*/
+/*    transform: rotateY(180deg);*/
+/*}*/
+
+.flip-card-front, .flip-card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+}
+
+.flip-card-front {
+    background-color: azure;
+}
+
+.flip-card-back {
+    background-color: dodgerblue;
+    transform: rotateY(180deg);
+}
+
+.flip180 {
+   transform: rotateY(180deg);
+}
+
+.rotate90 {
+    width: fit-content;
+    height: fit-content;
+    -webkit-transform: rotate(90deg);
+    -webkit-transition: -webkit-transform 1s;
 }
