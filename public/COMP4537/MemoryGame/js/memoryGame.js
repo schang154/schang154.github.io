@@ -1,14 +1,76 @@
 const INITIAL_GRID_SIZE = 3;
-const WINDOW_WIDTH = window.innerWidth;
-const WINDOW_HEIGHT = window.innerHeight;
-const GAME_CONTAINER = document.getElementById("game-container");
+const INITIAL_TIME_TO_REMEMBER_PATTERN = 1000;
+const INITIAL_LEVEL = 1;
+const INITIAL_NUM_OF_MISTAKE_ALLOWED = 0;
+const INITIAL_TILE_COUNT = 3;
+const INITIAL_EASINESS = 3;
+const INITIAL_BONUS = 3;
+const LEVEL_LIMIT = 5;
+const FLIP_AUDIO_PATH = "./src/cardFlip_thump.mp3";
+const LEVEL_AUDIO_PATH = "./src/levelCompleteSound.mp3";
+const GAME_OVER_AUDIO_PATH = "./src/gameOver.mp3";
+const BUTTON_AUDIO_PATH = "./src/buttonClick.mp3";
+const GAME_COMPLETE_AUDIO_PATH = "./src/wowSound.mp3";
+const WINNING_MESSAGE = "Congratulations";
+const GAME_OVER_MESSAGE = "GAME OVER";
+let scoreContainer = document.getElementById("score");
+let tileCountContainer = document.getElementById("tile-number");
+let chanceContainer = document.getElementById("chance");
+let gameBox = document.getElementById("game-box");
+let flipAudio = new Audio(FLIP_AUDIO_PATH);
+let levelAudio = new Audio(LEVEL_AUDIO_PATH);
+let gameOverAudio = new Audio(GAME_OVER_AUDIO_PATH);
+let buttonAudio = new Audio(BUTTON_AUDIO_PATH);
+let gameCompleteAudio = new Audio(GAME_COMPLETE_AUDIO_PATH);
+let scoreTracker = 0;
+let tileCountTracker = INITIAL_TILE_COUNT;
+let wrongTilesClicked = false;
+let numOfMistakesAllowed = INITIAL_NUM_OF_MISTAKE_ALLOWED;
+let gridSize = INITIAL_GRID_SIZE;
+let level = INITIAL_LEVEL;
+let easiness = INITIAL_EASINESS;
+let perfectBonus = INITIAL_BONUS;
 
-class gridBox {
+
+/* card */
+class cardConstructor {
     constructor(number) {
-        this.box = makeFlipCard();
+        this.card = makeFlipCard();
         this.tag = false;
         this.number = number;
     }
+}
+
+function updateContent(container, Description ,count) {
+    container.innerHTML = Description + ": " + count;
+}
+
+function unclickable(element) {
+    element.classList.add("unclickable");
+}
+
+function clickable(element) {
+    element.classList.remove("unclickable");
+}
+
+
+
+function addScore(card) {
+    scoreTracker++;
+    tileCountTracker--;
+
+    updateContent(scoreContainer, "Score", scoreTracker);
+    updateContent(tileCountContainer, "Tile", tileCountTracker);
+    unclickable(card);
+}
+
+function deductScore(card) {
+    scoreTracker--;
+    wrongTilesClicked = true;
+    numOfMistakesAllowed--;
+    updateContent(chanceContainer, "Chance", numOfMistakesAllowed);
+    updateContent(scoreContainer, "Score", scoreTracker);
+    unclickable(card);
 }
 
 function makeFlipCard() {
@@ -16,9 +78,6 @@ function makeFlipCard() {
     flipCard.setAttribute("CLASS", "flip-card");
     let flipCardInner = document.createElement("DIV");
     flipCardInner.setAttribute("CLASS", "flip-card-inner");
-    flipCardInner.onclick = () => {
-        flipCardInner.classList.add("flip180");
-    };
     let flipCardFront = document.createElement("DIV");
     flipCardFront.setAttribute("CLASS", "flip-card-front");
     let flipCardBack = document.createElement("DIV");
@@ -29,10 +88,10 @@ function makeFlipCard() {
     return flipCard;
 }
 
-function generateRandomNumberArray(size) {
+function generateRandomNumberArray(size, numOfTiles) {
     let randomNumArray = [];
     let count = 0;
-    while (count < size) {
+    while (count < numOfTiles) {
         let randomNumber = Math.floor(Math.random() * size * size);
         if (!(randomNumArray.includes(randomNumber))) {
             randomNumArray.push(randomNumber);
@@ -42,58 +101,192 @@ function generateRandomNumberArray(size) {
     return randomNumArray;
 }
 
-function createBox(row, col, random) {
-    let gameBox = document.createElement("DIV");
-    gameBox.setAttribute("ID", "grid-box");
-    gameBox.style.display = "grid";
-    let boxSize = "30px ";
+function flipCard(gridBox, cardObject, level, gridSize, initialTime) {
 
-    // append grid boxes to the gamebox div
-    let gridArray = [];
-    for (let i = 0; i < row*col; i++) {
-        gridArray.push(new gridBox());
-        gridArray[i].number = i;
-        gameBox.appendChild(gridArray[i].box);
-    }
+    let cardElement = cardObject.card;
+    unclickable(cardElement);
+    cardElement.onclick = ()=> {
 
-    let randomNumArray = generateRandomNumberArray(random);
-    for (let i = 0; i < randomNumArray.length; i++) {
-        gridArray[randomNumArray[i]].tag = true;
-    }
+        let cardBack = cardElement.getElementsByClassName("flip-card-inner")[0];
+        cardBack.classList.add("flip180");
 
-    // assign random colored grids
-    for (let i = 0; i < row*col; i++) {
-        let cardBack = gridArray[i].box.getElementsByClassName("flip-card-back")[0];
-        if (gridArray[i].tag) {
-            cardBack.style.background = "red";
+        flipAudio.play();
+
+        if (cardObject.tag) {
+            addScore(cardElement);
+        } else {
+            deductScore(cardElement);
         }
-    }
+
+        checkEndGame(gridBox, level, gridSize, initialTime);
+    };
+}
+
+function createGridBox(gridSize, numOfTile, level, initialTime) {
+    tileCountTracker = numOfTile;
+    let gridBox = document.getElementById("grid-box");
+    gridBox.style.display = "grid";
+    let boxSize = "40px ";
 
     // assign grid sizes
     let griRowSize = '';
-    for (let i = 0; i < col; i++) {
+    for (let i = 0; i < gridSize; i++) {
         griRowSize+=boxSize;
     }
     let gridColSize = '';
-    for (let j = 0; j < col; j++) {
+    for (let j = 0; j < gridSize; j++) {
         gridColSize+=boxSize;
     }
-    gameBox.style.gridTemplateRows = griRowSize;
-    gameBox.style.gridTemplateColumns = gridColSize;
+    gridBox.style.gridTemplateRows = griRowSize;
+    gridBox.style.gridTemplateColumns = gridColSize;
 
-    return gameBox;
+
+    // append grid boxes to the gamebox div and functionality to each card
+    let gridArray = [];
+    for (let i = 0; i < gridSize*gridSize; i++) {
+        gridArray.push(new cardConstructor());
+        let cardObject = gridArray[i];
+
+        cardObject.number = i;
+
+        flipCard(gridBox, cardObject, level, gridSize, initialTime);
+
+        gridBox.appendChild(cardObject.card);
+    }
+
+    // assign random colored grids
+    let randomNumArray = generateRandomNumberArray(gridSize, numOfTile);
+    for (let i = 0; i < randomNumArray.length; i++) {
+        gridArray[randomNumArray[i]].tag = true;
+    }
+    for (let i = 0; i < gridSize*gridSize; i++) {
+        let cardBack = gridArray[i].card.getElementsByClassName("flip-card-back")[0];
+        if (gridArray[i].tag) {
+            cardBack.classList.add("red");
+        }
+    }
+
+    return gridBox;
 }
 
-function gameLogic() {
-    let gameBox = document.createElement("DIV");
-    gameBox.setAttribute("ID", "game-box");
-    let gridBox = createBox(INITIAL_GRID_SIZE, INITIAL_GRID_SIZE, INITIAL_GRID_SIZE);
-    gameBox.appendChild(gridBox);
-    GAME_CONTAINER.appendChild(gameBox);
+/* Game Logic */
 
-    setTimeout(()=> {
-        gridBox.classList.add("rotate90");
-    }, 1000);
+function startNewGame(level, gridSize, numOfTile, initialTime) {
+    let gridBox = createGridBox(gridSize, numOfTile, level, initialTime);
+    let cardBackArray = gridBox.getElementsByClassName("flip-card-inner");
+    let cardArray = gridBox.getElementsByClassName("flip-card");
+    let timeToRemember = initialTime + 1000 * level;
+    let timeToRotate = timeToRemember + 1000;
+    updateContent(chanceContainer, "Chance", numOfMistakesAllowed);
+    updateContent(tileCountContainer, "Tile", tileCountTracker);
+    updateContent(scoreContainer, "Score", scoreTracker);
+    wrongTilesClicked = false;
+    levelAudio.play();
+
+    for (let i = 0; i < cardBackArray.length; i++) {
+        let cardBack = cardBackArray[i];
+        let card = cardArray[i];
+
+        // flip cards to show player to memorize
+        cardBack.classList.add("flip180");
+
+        // wait some time to flip back
+        setTimeout(() => {
+            cardBack.classList.remove("flip180");
+        }, timeToRemember);
+
+        // wait some time to rotate
+        setTimeout(() => {
+            gridBox.classList.add("rotate90");
+            clickable(card);
+        }, timeToRotate);
+
+    }
+
 }
 
-gameLogic();
+function clearGridBox(gridBox) {
+
+    gridBox.classList.remove("rotate90");
+    gridBox.removeAttribute("style");
+    // As long as grid-box has a child node, remove it
+    while (gridBox.hasChildNodes()) {
+        gridBox.removeChild(gridBox.firstChild);
+    }
+    gridBox.classList.remove("w3-hide");
+}
+
+function resetGame(gridBox) {
+    scoreTracker = 0;
+    gridSize = INITIAL_GRID_SIZE;
+    level = INITIAL_LEVEL;
+    tileCountTracker = INITIAL_TILE_COUNT;
+    wrongTilesClicked = false;
+    numOfMistakesAllowed = INITIAL_NUM_OF_MISTAKE_ALLOWED;
+    easiness = INITIAL_EASINESS;
+    perfectBonus = INITIAL_BONUS;
+    let resetButton = document.getElementById("reset");
+    let endContainer = document.getElementById("end-container");
+    gridBox.classList.add("w3-hide");
+    endContainer.classList.remove("w3-hide");
+    resetButton.onclick = ()=> {
+        buttonAudio.play();
+        clearGridBox(gridBox);
+        endContainer.classList.add("w3-hide");
+        gridBox.classList.remove("w3-hide");
+        gridBox.classList.remove("rotate90");
+        startNewGame(level, gridSize, tileCountTracker, INITIAL_TIME_TO_REMEMBER_PATTERN);
+    }
+}
+
+function checkEndGame(gridBox, level, gridSize, initialTime) {
+    let engMessage = document.getElementById("end-message");
+
+    // game over
+    if (scoreTracker < 0 || numOfMistakesAllowed < 0) {
+        gameOverAudio.play();
+        engMessage.innerHTML = GAME_OVER_MESSAGE;
+        resetGame(gridBox);
+
+      // game levels up
+    } else if (tileCountTracker === 0 && level < 5) {
+        if (!wrongTilesClicked) {
+            scoreTracker+=perfectBonus++;
+        }
+        clearGridBox(gridBox);
+        level++;
+        gridSize++;
+        numOfTile = Math.floor((gridSize * gridSize) / easiness);
+        numOfMistakesAllowed = level-1;
+        startNewGame(level, gridSize, numOfTile, initialTime);
+
+      // wrong tile clicked
+    } else if (tileCountTracker > 0 && wrongTilesClicked && numOfMistakesAllowed === 0) {
+        clearGridBox(gridBox);
+        numOfMistakesAllowed = level-1;
+        numOfTile = Math.round((gridSize * gridSize) / ++easiness);
+        startNewGame(level, gridSize, numOfTile, initialTime);
+
+        // game complete
+    } else if (tileCountTracker === 0 && level === 5) {
+        gameCompleteAudio.play();
+        engMessage.innerHTML = WINNING_MESSAGE;
+        resetGame(gridBox);
+    }
+}
+
+
+function startGame() {
+    let playButton = document.getElementById("play-button");
+    playButton.onclick = () => {
+        buttonAudio.play();
+        playButton.classList.add("w3-hide");
+        gameBox.classList.remove("w3-hide");
+        startNewGame(level, gridSize, tileCountTracker, INITIAL_TIME_TO_REMEMBER_PATTERN);
+    };
+}
+
+startGame();
+
+
+

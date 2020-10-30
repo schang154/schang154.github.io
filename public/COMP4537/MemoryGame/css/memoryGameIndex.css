@@ -26,10 +26,10 @@ nav img {
 }
 
 /* Remove margins from "page content" on small screens */
-@media only screen and (
-max-width: 600px
-) {#main {margin-left: 0}
-
+@media only screen and (max-width: 600px) {
+    #main {
+        margin-left: 0
+    }
 }
 
 #home img {
@@ -56,26 +56,40 @@ hr {
     color: blue;
 }
 
+/*#play-button {*/
+/*    background: transparent;;*/
+/*    justify-content: center;*/
+/*    align-content: center;*/
+/*}*/
+
 #game-container {
-    justify-content: center;
-    margin-bottom: 10px;
-    width: auto;
-    display: flex;
+    width: 100%;
 }
 
 #game-box {
     background: black;
-    height: 400px;
-    width: 400px;
- }
+    height: 350px;
+}
 
 #grid-box {
     background: transparent;
-    height: 100%;
-    width: 100%;
     grid-gap: 3px;
     justify-content: center;
     align-content: center;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+}
+
+#content-display-container {
+    height: 90%;
+}
+
+#end-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
 }
 
 .flip-card {
@@ -118,12 +132,34 @@ hr {
 }
 
 .flip180 {
-   transform: rotateY(180deg);
+   transform: rotateX(180deg);
+}
+
+.flip360 {
+    transform: rotateY(360deg);
 }
 
 .rotate90 {
-    width: fit-content;
-    height: fit-content;
     -webkit-transform: rotate(90deg);
     -webkit-transition: -webkit-transform 1s;
+}
+
+.text-shadow {
+    text-shadow:1px 1px 0 #8e8e8e;
+}
+
+.red {
+    background: red;
+}
+
+.unclickable {
+    pointer-events: none;
+}
+
+.width33 {
+    width: 33%;
+}
+
+.margin-bottom20 {
+    margin-bottom: 20px;
 }

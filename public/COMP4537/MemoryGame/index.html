@@ -41,14 +41,31 @@
 <div class="w3-padding-large" id="main">
 
     <h2 class="w3-text-black">Memory Game</h2>
-
-    <div id="game-container">
-        <div id="score-container"></div>
-
+    <p>Click on RED blocks to score.</p>
+    <div id="game-container" class="margin-bottom20">
+        <div class="w3-center">
+            <button id="play-button" class="w3-btn w3-round-large w3-black w3-text-white w3-hover-light-grey margin-bottom20">PLAY</button>
+            <button id="terminate" class="w3-btn w3-round-large w3-black w3-text-white w3-hover-light-grey margin-bottom20">Terminate</button>
+        </div>
+        <div id="game-box" class="w3-hide">
+            <div id="score-container" class="w3-container w3-cell-row">
+                <div id="chance" class="w3-container w3-cell w3-text-white text-shadow w3-center width33"></div>
+                <div id="score" class="w3-container w3-cell w3-text-white text-shadow w3-center width33"></div>
+                <div id="tile-number" class="w3-container w3-cell w3-text-white text-shadow w3-center width33"></div>
+            </div>
+            <div id="content-display-container" class="w3-display-container">
+                <div id="grid-box" class=""></div>
+                <div>You Have</div>
+                <div id="end-container" class="w3-container w3-hide">
+                    <div id="end-message" class="w3-container w3-text-white" ></div>
+                    <button id="reset" class="w3-col w3-text-black">Restart</button>
+                </div>
+            </div>
+        </div>
         <script src="./js/memoryGame.js"></script>
 
     </div>
-    <button class="w3-btn w3-round-large w3-black w3-text-white w3-hover-light-grey" onclick=location.href="../COMP4537.html#">Back</button>
+    <button class="w3-btn w3-round-large w3-black w3-text-white w3-hover-light-grey margin-bottom20" onclick=location.href="../COMP4537.html#">Back</button>
 
     <!-- END PAGE CONTENT -->
 </div>
