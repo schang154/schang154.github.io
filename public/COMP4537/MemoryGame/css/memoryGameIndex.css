@@ -56,19 +56,13 @@ hr {
     color: blue;
 }
 
-/*#play-button {*/
-/*    background: transparent;;*/
-/*    justify-content: center;*/
-/*    align-content: center;*/
-/*}*/
-
 #game-container {
     width: 100%;
 }
 
 #game-box {
     background: black;
-    height: 350px;
+    height: 400px;
 }
 
 #grid-box {
@@ -132,7 +126,8 @@ hr {
 }
 
 .flip180 {
-   transform: rotateX(180deg);
+    transform: rotateX(180deg);
+    -webkit-transition: -webkit-transform 0.5s;
 }
 
 .flip360 {

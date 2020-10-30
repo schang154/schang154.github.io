@@ -53,12 +53,9 @@ function clickable(element) {
     element.classList.remove("unclickable");
 }
 
-
-
 function addScore(card) {
     scoreTracker++;
     tileCountTracker--;
-
     updateContent(scoreContainer, "Score", scoreTracker);
     updateContent(tileCountContainer, "Tile", tileCountTracker);
     unclickable(card);
@@ -106,19 +103,18 @@ function flipCard(gridBox, cardObject, level, gridSize, initialTime) {
     let cardElement = cardObject.card;
     unclickable(cardElement);
     cardElement.onclick = ()=> {
+        flipAudio.play().then( ()=> {
 
-        let cardBack = cardElement.getElementsByClassName("flip-card-inner")[0];
-        cardBack.classList.add("flip180");
+            let cardBack = cardElement.getElementsByClassName("flip-card-inner")[0];
+            cardBack.classList.add("flip180");
 
-        flipAudio.play();
-
-        if (cardObject.tag) {
-            addScore(cardElement);
-        } else {
-            deductScore(cardElement);
-        }
-
-        checkEndGame(gridBox, level, gridSize, initialTime);
+            if (cardObject.tag) {
+                addScore(cardElement);
+            } else {
+                deductScore(cardElement);
+            }
+            checkEndGame(gridBox, level, gridSize, initialTime);
+        });
     };
 }
 
@@ -146,11 +142,9 @@ function createGridBox(gridSize, numOfTile, level, initialTime) {
     for (let i = 0; i < gridSize*gridSize; i++) {
         gridArray.push(new cardConstructor());
         let cardObject = gridArray[i];
-
         cardObject.number = i;
-
+        // add functionality here
         flipCard(gridBox, cardObject, level, gridSize, initialTime);
-
         gridBox.appendChild(cardObject.card);
     }
 
@@ -165,12 +159,10 @@ function createGridBox(gridSize, numOfTile, level, initialTime) {
             cardBack.classList.add("red");
         }
     }
-
     return gridBox;
 }
 
 /* Game Logic */
-
 function startNewGame(level, gridSize, numOfTile, initialTime) {
     let gridBox = createGridBox(gridSize, numOfTile, level, initialTime);
     let cardBackArray = gridBox.getElementsByClassName("flip-card-inner");
@@ -181,39 +173,52 @@ function startNewGame(level, gridSize, numOfTile, initialTime) {
     updateContent(tileCountContainer, "Tile", tileCountTracker);
     updateContent(scoreContainer, "Score", scoreTracker);
     wrongTilesClicked = false;
-    levelAudio.play();
+    levelAudio.play().then( ()=> {
 
+        for (let i = 0; i < cardBackArray.length; i++) {
+            let cardBack = cardBackArray[i];
+            let card = cardArray[i];
+
+            // flip cards to show player to memorize
+            cardBack.classList.add("flip180");
+
+            // wait some time to flip back
+            setTimeout(() => {
+                cardBack.classList.remove("flip180");
+            }, timeToRemember);
+
+            // wait some time to rotate
+            setTimeout(() => {
+                gridBox.classList.add("rotate90");
+                clickable(card);
+            }, timeToRotate);
+        }
+    });
+}
+
+function showAllCards(gridBox) {
+    let cardBackArray = gridBox.getElementsByClassName("flip-card-inner");
     for (let i = 0; i < cardBackArray.length; i++) {
         let cardBack = cardBackArray[i];
-        let card = cardArray[i];
 
         // flip cards to show player to memorize
         cardBack.classList.add("flip180");
-
-        // wait some time to flip back
-        setTimeout(() => {
-            cardBack.classList.remove("flip180");
-        }, timeToRemember);
-
-        // wait some time to rotate
-        setTimeout(() => {
-            gridBox.classList.add("rotate90");
-            clickable(card);
-        }, timeToRotate);
-
     }
-
 }
 
 function clearGridBox(gridBox) {
 
-    gridBox.classList.remove("rotate90");
-    gridBox.removeAttribute("style");
-    // As long as grid-box has a child node, remove it
-    while (gridBox.hasChildNodes()) {
-        gridBox.removeChild(gridBox.firstChild);
-    }
-    gridBox.classList.remove("w3-hide");
+    showAllCards(gridBox);
+
+    setTimeout(()=> {
+        gridBox.classList.remove("rotate90");
+        gridBox.removeAttribute("style");
+        // As long as grid-box has a child node, remove it
+        while (gridBox.hasChildNodes()) {
+            gridBox.removeChild(gridBox.firstChild);
+        }
+        gridBox.classList.remove("w3-hide");
+    }, 800);
 }
 
 function resetGame(gridBox) {
@@ -227,15 +232,22 @@ function resetGame(gridBox) {
     perfectBonus = INITIAL_BONUS;
     let resetButton = document.getElementById("reset");
     let endContainer = document.getElementById("end-container");
-    gridBox.classList.add("w3-hide");
-    endContainer.classList.remove("w3-hide");
-    resetButton.onclick = ()=> {
-        buttonAudio.play();
+    let engMessage = document.getElementById("end-message");
+    showAllCards(gridBox);
+
+    setTimeout(()=>{
+        gridBox.classList.add("w3-hide");
+        endContainer.classList.remove("w3-hide");
+        engMessage.classList.remove("w3-hide");
         clearGridBox(gridBox);
-        endContainer.classList.add("w3-hide");
-        gridBox.classList.remove("w3-hide");
-        gridBox.classList.remove("rotate90");
-        startNewGame(level, gridSize, tileCountTracker, INITIAL_TIME_TO_REMEMBER_PATTERN);
+    },800);
+
+    resetButton.onclick = ()=> {
+        buttonAudio.play().then(()=> {
+            endContainer.classList.add("w3-hide");
+            startNewGame(level, gridSize, tileCountTracker,
+                INITIAL_TIME_TO_REMEMBER_PATTERN);
+        });
     }
 }
 
@@ -244,34 +256,36 @@ function checkEndGame(gridBox, level, gridSize, initialTime) {
 
     // game over
     if (scoreTracker < 0 || numOfMistakesAllowed < 0) {
-        gameOverAudio.play();
-        engMessage.innerHTML = GAME_OVER_MESSAGE;
-        resetGame(gridBox);
+        gameOverAudio.play().then( ()=> {
+            engMessage.innerHTML = GAME_OVER_MESSAGE;
+            resetGame(gridBox);
+        });
 
       // game levels up
-    } else if (tileCountTracker === 0 && level < 5) {
+    } else if (tileCountTracker === 0 && level < 2) {
         if (!wrongTilesClicked) {
             scoreTracker+=perfectBonus++;
         }
-        clearGridBox(gridBox);
         level++;
         gridSize++;
-        numOfTile = Math.floor((gridSize * gridSize) / easiness);
-        numOfMistakesAllowed = level-1;
-        startNewGame(level, gridSize, numOfTile, initialTime);
-
-      // wrong tile clicked
-    } else if (tileCountTracker > 0 && wrongTilesClicked && numOfMistakesAllowed === 0) {
+        let numOfTile = Math.floor((gridSize * gridSize) / easiness);
         clearGridBox(gridBox);
         numOfMistakesAllowed = level-1;
-        numOfTile = Math.round((gridSize * gridSize) / ++easiness);
-        startNewGame(level, gridSize, numOfTile, initialTime);
+        setTimeout(()=>{startNewGame(level, gridSize, numOfTile, initialTime)}, 1000);
+
+      // wrong tile clicked
+    } else if (tileCountTracker > 0 && wrongTilesClicked && numOfMistakesAllowed < 0) {
+        let numOfTile = Math.round((gridSize * gridSize) / ++easiness);
+        clearGridBox(gridBox);
+        numOfMistakesAllowed = level-1;
+        setTimeout(()=>{startNewGame(level, gridSize, numOfTile, initialTime)}, 1000);
 
         // game complete
-    } else if (tileCountTracker === 0 && level === 5) {
-        gameCompleteAudio.play();
-        engMessage.innerHTML = WINNING_MESSAGE;
-        resetGame(gridBox);
+    } else if (tileCountTracker === 0 && level === 2) {
+        gameCompleteAudio.play().then(()=> {
+            engMessage.innerHTML = WINNING_MESSAGE;
+            resetGame(gridBox);
+        });
     }
 }
 
@@ -279,10 +293,11 @@ function checkEndGame(gridBox, level, gridSize, initialTime) {
 function startGame() {
     let playButton = document.getElementById("play-button");
     playButton.onclick = () => {
-        buttonAudio.play();
-        playButton.classList.add("w3-hide");
-        gameBox.classList.remove("w3-hide");
-        startNewGame(level, gridSize, tileCountTracker, INITIAL_TIME_TO_REMEMBER_PATTERN);
+        buttonAudio.play().then( ()=> {
+            playButton.classList.add("w3-hide");
+            gameBox.classList.remove("w3-hide");
+            startNewGame(level, gridSize, tileCountTracker, INITIAL_TIME_TO_REMEMBER_PATTERN);
+        });
     };
 }
 
