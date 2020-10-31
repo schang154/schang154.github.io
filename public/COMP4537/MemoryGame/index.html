@@ -38,34 +38,56 @@
 </div>
 
 <!-- Page Content -->
-<div class="w3-padding-large" id="main">
+<div class="w3-padding-large invisible" id="main">
 
-    <h2 class="w3-text-black">Memory Game</h2>
-    <p>Click on RED blocks to score.</p>
-    <div id="game-container" class="margin-bottom20">
-        <div class="w3-center">
+    <h2 class="w3-text-black visible">Memory Game</h2>
+    <p class="visible">Click on <b class="w3-text-red">RED</b> blocks to score.</p>
+    <div id="game-container" class="margin-bottom20 invisible unclickable">
+        <div class="w3-center visible">
             <button id="play-button" class="w3-btn w3-round-large w3-black w3-text-white w3-hover-light-grey margin-bottom20">PLAY</button>
-            <button id="terminate" class="w3-btn w3-round-large w3-black w3-text-white w3-hover-light-grey margin-bottom20">Terminate</button>
+            <button id="terminate" class="w3-btn w3-round-large w3-black w3-text-white w3-hover-light-grey margin-bottom20" >Terminate</button>
         </div>
-        <div id="game-box" class="w3-hide">
-            <div id="score-container" class="w3-container w3-cell-row">
-                <div id="chance" class="w3-container w3-cell w3-text-white text-shadow w3-center width33"></div>
-                <div id="score" class="w3-container w3-cell w3-text-white text-shadow w3-center width33"></div>
-                <div id="tile-number" class="w3-container w3-cell w3-text-white text-shadow w3-center width33"></div>
+        <div id="game-box" class="w3-hide invisible unclickable">
+                <div id="end-modal" class="w3-modal visible">
+                    <div class="w3-modal-content">
+                        <div class="w3-container w3-center">
+                            <button id="close-modal" class="w3-button w3-display-topright fa fa-close"></button>
+                            <p class="w3-large">Are you sure about this?</p>
+                            <form id="submit-form" class="w3-container visible w3-hide">
+
+                                <label class="w3-xlarge w3-text-black"><b>Your Name</b>
+                                    <input class="w3-input w3-border visible" type="text">
+                                </label>
+
+                                <p id="final-score"></p>
+
+                                <button id="submit-button" class="w3-text-black w3-large visible">Submit</button>
+
+                            </form>
+                            <div class="w3-bar">
+                                <button id="yes" class="w3-text-black w3-large visible">Yes</button>
+                                <button id="no" class="w3-text-black w3-large visible">No</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <div id="score-container" class="w3-cell-row visible">
+                <div id="chance" class="w3-cell w3-text-black text-shadow w3-center width33"></div>
+                <div id="score" class="w3-cell w3-text-black text-shadow w3-center width33"></div>
+                <div id="tile-number" class="w3-cell w3-text-black text-shadow w3-center width33"></div>
             </div>
-            <div id="content-display-container" class="w3-display-container">
-                <div id="grid-box" class=""></div>
-                <div>You Have</div>
-                <div id="end-container" class="w3-container w3-hide">
-                    <div id="end-message" class="w3-container w3-text-white w3-hide"></div>
-                    <button id="reset" class="w3-col w3-text-black">Restart</button>
+            <div id="content-display-container" class="w3-display-container invisible unclickable">
+                <div id="grid-box" class="invisible unclickable"></div>
+                <div id="end-container" class="w3-container w3-hide invisible">
+                    <div id="end-message" class="w3-container w3-text-black w3-hide visible"></div>
+                    <button id="reset" class="w3-col w3-text-black w3-hide visible">Restart</button>
                 </div>
             </div>
         </div>
         <script src="./js/memoryGame.js"></script>
 
     </div>
-    <button class="w3-btn w3-round-large w3-black w3-text-white w3-hover-light-grey margin-bottom20" onclick=location.href="../COMP4537.html#">Back</button>
+    <button class="w3-btn w3-round-large w3-black w3-text-white w3-hover-light-grey margin-bottom20 visible" onclick=location.href="../COMP4537.html#">Back</button>
 
     <!-- END PAGE CONTENT -->
 </div>

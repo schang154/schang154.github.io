@@ -13,15 +13,38 @@ const BUTTON_AUDIO_PATH = "./src/buttonClick.mp3";
 const GAME_COMPLETE_AUDIO_PATH = "./src/wowSound.mp3";
 const WINNING_MESSAGE = "Congratulations";
 const GAME_OVER_MESSAGE = "GAME OVER";
+const FINAL_SCORE_MESSAGE = "Your final score: ";
+
 let scoreContainer = document.getElementById("score");
 let tileCountContainer = document.getElementById("tile-number");
 let chanceContainer = document.getElementById("chance");
 let gameBox = document.getElementById("game-box");
+let gridBox = document.getElementById("grid-box");
+let endContainer = document.getElementById("end-container");
+let engMessage = document.getElementById("end-message");
+let endModal = document.getElementById("end-modal");
+let submitForm = document.getElementById("submit-form");
+let terminateMessage = endModal.getElementsByTagName("P")[0];
+let finalScore = document.getElementById("final-score");
+let playButton = document.getElementById("play-button");
+let resetButton = document.getElementById("reset");
+let terminateButton = document.getElementById("terminate");
+let yesButton = document.getElementById("yes");
+let noButton = document.getElementById("no");
+
+let closeModalSpan = document.getElementById("close-modal");
+
 let flipAudio = new Audio(FLIP_AUDIO_PATH);
 let levelAudio = new Audio(LEVEL_AUDIO_PATH);
 let gameOverAudio = new Audio(GAME_OVER_AUDIO_PATH);
 let buttonAudio = new Audio(BUTTON_AUDIO_PATH);
 let gameCompleteAudio = new Audio(GAME_COMPLETE_AUDIO_PATH);
+flipAudio.muted;
+levelAudio.muted;
+gameOverAudio.muted;
+buttonAudio.muted;
+gameCompleteAudio.muted;
+
 let scoreTracker = 0;
 let tileCountTracker = INITIAL_TILE_COUNT;
 let wrongTilesClicked = false;
@@ -71,7 +94,7 @@ function deductScore(card) {
 }
 
 function makeFlipCard() {
-    let flipCard = document.createElement("DIV");
+    let flipCard = document.createElement("BUTTON");
     flipCard.setAttribute("CLASS", "flip-card");
     let flipCardInner = document.createElement("DIV");
     flipCardInner.setAttribute("CLASS", "flip-card-inner");
@@ -82,6 +105,7 @@ function makeFlipCard() {
     flipCardInner.appendChild(flipCardFront);
     flipCardInner.appendChild(flipCardBack);
     flipCard.appendChild(flipCardInner);
+    flipCard.classList.add("visible");
     return flipCard;
 }
 
@@ -120,7 +144,6 @@ function flipCard(gridBox, cardObject, level, gridSize, initialTime) {
 
 function createGridBox(gridSize, numOfTile, level, initialTime) {
     tileCountTracker = numOfTile;
-    let gridBox = document.getElementById("grid-box");
     gridBox.style.display = "grid";
     let boxSize = "40px ";
 
@@ -230,41 +253,46 @@ function resetGame(gridBox) {
     numOfMistakesAllowed = INITIAL_NUM_OF_MISTAKE_ALLOWED;
     easiness = INITIAL_EASINESS;
     perfectBonus = INITIAL_BONUS;
-    let resetButton = document.getElementById("reset");
-    let endContainer = document.getElementById("end-container");
-    let engMessage = document.getElementById("end-message");
+
     showAllCards(gridBox);
 
     setTimeout(()=>{
-        gridBox.classList.add("w3-hide");
         endContainer.classList.remove("w3-hide");
         engMessage.classList.remove("w3-hide");
+        gridBox.classList.add("w3-hide");
         clearGridBox(gridBox);
+        setTimeout(()=>{resetButton.classList.remove("w3-hide")}, 1000);
     },800);
 
     resetButton.onclick = ()=> {
         buttonAudio.play().then(()=> {
             endContainer.classList.add("w3-hide");
+            engMessage.classList.add("w3-hide");
+            resetButton.classList.add("w3-hide");
             startNewGame(level, gridSize, tileCountTracker,
                 INITIAL_TIME_TO_REMEMBER_PATTERN);
         });
     }
 }
 
+function endGame(gridBox, audio, message) {
+    audio.play().then( ()=> {
+        engMessage.innerHTML = message;
+        resetGame(gridBox);
+    });
+}
+
 function checkEndGame(gridBox, level, gridSize, initialTime) {
-    let engMessage = document.getElementById("end-message");
 
     // game over
-    if (scoreTracker < 0 || numOfMistakesAllowed < 0) {
-        gameOverAudio.play().then( ()=> {
-            engMessage.innerHTML = GAME_OVER_MESSAGE;
-            resetGame(gridBox);
-        });
+    if (scoreTracker < 0 || numOfMistakesAllowed < 0 && level === 1) {
+        endGame(gridBox, gameOverAudio, GAME_OVER_MESSAGE);
 
       // game levels up
-    } else if (tileCountTracker === 0 && level < 2) {
+    } else if (tileCountTracker === 0 && level < LEVEL_LIMIT) {
         if (!wrongTilesClicked) {
-            scoreTracker+=perfectBonus++;
+            perfectBonus = (perfectBonus > 0) ? perfectBonus++ : 0;
+            scoreTracker+=perfectBonus;
         }
         level++;
         gridSize++;
@@ -276,28 +304,54 @@ function checkEndGame(gridBox, level, gridSize, initialTime) {
       // wrong tile clicked
     } else if (tileCountTracker > 0 && wrongTilesClicked && numOfMistakesAllowed < 0) {
         let numOfTile = Math.round((gridSize * gridSize) / ++easiness);
+        perfectBonus = (perfectBonus > 0) ? perfectBonus-- : 0;
         clearGridBox(gridBox);
         numOfMistakesAllowed = level-1;
         setTimeout(()=>{startNewGame(level, gridSize, numOfTile, initialTime)}, 1000);
 
         // game complete
-    } else if (tileCountTracker === 0 && level === 2) {
-        gameCompleteAudio.play().then(()=> {
-            engMessage.innerHTML = WINNING_MESSAGE;
-            resetGame(gridBox);
-        });
+    } else if (tileCountTracker === 0 && level === LEVEL_LIMIT) {
+        endGame(gridBox, gameCompleteAudio,WINNING_MESSAGE);
     }
 }
 
+function resetModal() {
+    terminateMessage.classList.remove("w3-hide");
+    yesButton.classList.remove("w3-hide");
+    noButton.classList.remove("w3-hide");
+    submitForm.classList.add("w3-hide");
+    endModal.classList.remove("w3-show");
+}
 
 function startGame() {
-    let playButton = document.getElementById("play-button");
     playButton.onclick = () => {
         buttonAudio.play().then( ()=> {
             playButton.classList.add("w3-hide");
             gameBox.classList.remove("w3-hide");
             startNewGame(level, gridSize, tileCountTracker, INITIAL_TIME_TO_REMEMBER_PATTERN);
         });
+    };
+
+    terminateButton.onclick = () => {
+        endModal.classList.add("w3-show");
+        finalScore.innerHTML = FINAL_SCORE_MESSAGE + scoreTracker;
+    };
+
+    closeModalSpan.onclick = () => {
+        endModal.classList.remove("w3-show");
+        resetModal();
+    };
+
+    noButton.onclick = () => {
+        endModal.classList.remove("w3-show");
+    };
+
+    yes.onclick = () => {
+        terminateMessage.classList.add("w3-hide");
+        yesButton.classList.add("w3-hide");
+        noButton.classList.add("w3-hide");
+        submitForm.classList.remove("w3-hide");
+        endGame(gridBox, gameOverAudio,GAME_OVER_MESSAGE);
     };
 }
 

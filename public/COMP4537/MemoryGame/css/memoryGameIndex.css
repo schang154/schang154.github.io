@@ -41,27 +41,12 @@ hr {
     width: 200px;
 }
 
-.questionTxt {
-    white-space: pre;
-}
-.questionTxt p {
-    margin: 0;
-}
-
-.red {
-    color: red;
-}
-
-.blue {
-    color: blue;
-}
-
 #game-container {
     width: 100%;
 }
 
 #game-box {
-    background: black;
+    /*background: black;*/
     height: 400px;
 }
 
@@ -86,12 +71,19 @@ hr {
     transform: translate(-50%,-50%);
 }
 
+#end-modal {
+    z-index: 15;
+}
+
 .flip-card {
     background-color: transparent;
     perspective: 1000px;
     padding: 2px;
     float: left;
-
+    z-index: 10;
+    pointer-events: auto;
+    cursor: pointer;
+    border: none;
 }
 
 .flip-card-inner {
@@ -117,7 +109,7 @@ hr {
 }
 
 .flip-card-front {
-    background-color: azure;
+    background-color: darkgrey;
 }
 
 .flip-card-back {
@@ -127,7 +119,7 @@ hr {
 
 .flip180 {
     transform: rotateX(180deg);
-    -webkit-transition: -webkit-transform 0.5s;
+    transition: transform 0.6s;
 }
 
 .flip360 {
@@ -157,4 +149,16 @@ hr {
 
 .margin-bottom20 {
     margin-bottom: 20px;
+}
+
+button, input {
+    pointer-events: auto;
+}
+
+.invisible {
+    visibility: hidden;
+}
+
+.visible {
+    visibility: visible;
 }
