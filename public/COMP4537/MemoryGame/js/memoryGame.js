@@ -346,7 +346,7 @@ function startGame() {
         endModal.classList.remove("w3-show");
     };
 
-    yes.onclick = () => {
+    yesButton.onclick = () => {
         terminateMessage.classList.add("w3-hide");
         yesButton.classList.add("w3-hide");
         noButton.classList.add("w3-hide");
