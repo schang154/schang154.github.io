@@ -23,7 +23,7 @@ let questionBank = {"questions": {1:`<p>Which of the following is not correct ab
                                 5: ["course.title()", "course.title", "course[title]", "course:title"]}
 };
 
-export class MultipleChoiceQuestion {
+class MultipleChoiceQuestion {
     constructor(questionNumber, question, answers) {
         this.number = questionNumber;
         this.question = question;
