@@ -24,14 +24,17 @@ let endContainer = document.getElementById("end-container");
 let engMessage = document.getElementById("end-message");
 let endModal = document.getElementById("end-modal");
 let submitForm = document.getElementById("submit-form");
+let playerName = document.getElementById("player-name");
 let terminateMessage = endModal.getElementsByTagName("P")[0];
 let finalScore = document.getElementById("final-score");
+let leaderboardTitle = endModal.getElementsByTagName("P")[1];
+let leaderboard = document.getElementById("leaderboard");
 let playButton = document.getElementById("play-button");
 let resetButton = document.getElementById("reset");
 let terminateButton = document.getElementById("terminate");
 let yesButton = document.getElementById("yes");
 let noButton = document.getElementById("no");
-
+let submitButton = document.getElementById("submit-button");
 let closeModalSpan = document.getElementById("close-modal");
 
 let flipAudio = new Audio(FLIP_AUDIO_PATH);
@@ -46,13 +49,18 @@ buttonAudio.muted;
 gameCompleteAudio.muted;
 
 let scoreTracker = 0;
+let highestScore = 0;
 let tileCountTracker = INITIAL_TILE_COUNT;
-let wrongTilesClicked = false;
 let numOfMistakesAllowed = INITIAL_NUM_OF_MISTAKE_ALLOWED;
 let gridSize = INITIAL_GRID_SIZE;
 let level = INITIAL_LEVEL;
 let easiness = INITIAL_EASINESS;
 let perfectBonus = INITIAL_BONUS;
+let wrongTilesClicked = false;
+let isResultSubmitted = false;
+let isGameOver = false;
+
+let queryResult = [];
 
 
 /* card */
@@ -138,6 +146,7 @@ function flipCard(gridBox, cardObject, level, gridSize, initialTime) {
                 deductScore(cardElement);
             }
             checkEndGame(gridBox, level, gridSize, initialTime);
+            highestScore = scoreTracker;
         });
     };
 }
@@ -195,7 +204,9 @@ function startNewGame(level, gridSize, numOfTile, initialTime) {
     updateContent(chanceContainer, "Chance", numOfMistakesAllowed);
     updateContent(tileCountContainer, "Tile", tileCountTracker);
     updateContent(scoreContainer, "Score", scoreTracker);
-    wrongTilesClicked = false;
+    highestScore = scoreTracker;
+    isResultSubmitted = false;
+    isGameOver = false;
     levelAudio.play().then( ()=> {
 
         for (let i = 0; i < cardBackArray.length; i++) {
@@ -253,6 +264,7 @@ function resetGame(gridBox) {
     numOfMistakesAllowed = INITIAL_NUM_OF_MISTAKE_ALLOWED;
     easiness = INITIAL_EASINESS;
     perfectBonus = INITIAL_BONUS;
+    queryResult = [];
 
     showAllCards(gridBox);
 
@@ -276,6 +288,7 @@ function resetGame(gridBox) {
 }
 
 function endGame(gridBox, audio, message) {
+    isGameOver = true;
     audio.play().then( ()=> {
         engMessage.innerHTML = message;
         resetGame(gridBox);
@@ -291,8 +304,12 @@ function checkEndGame(gridBox, level, gridSize, initialTime) {
       // game levels up
     } else if (tileCountTracker === 0 && level < LEVEL_LIMIT) {
         if (!wrongTilesClicked) {
-            perfectBonus = (perfectBonus > 0) ? perfectBonus++ : 0;
             scoreTracker+=perfectBonus;
+            if (perfectBonus >= 0) {
+                perfectBonus++;
+            } else {
+                perfectBonus = 0;
+            }
         }
         level++;
         gridSize++;
@@ -304,7 +321,11 @@ function checkEndGame(gridBox, level, gridSize, initialTime) {
       // wrong tile clicked
     } else if (tileCountTracker > 0 && wrongTilesClicked && numOfMistakesAllowed < 0) {
         let numOfTile = Math.round((gridSize * gridSize) / ++easiness);
-        perfectBonus = (perfectBonus > 0) ? perfectBonus-- : 0;
+        if (perfectBonus > 0) {
+            perfectBonus--;
+        } else {
+            perfectBonus = 0;
+        }
         clearGridBox(gridBox);
         numOfMistakesAllowed = level-1;
         setTimeout(()=>{startNewGame(level, gridSize, numOfTile, initialTime)}, 1000);
@@ -312,19 +333,80 @@ function checkEndGame(gridBox, level, gridSize, initialTime) {
         // game complete
     } else if (tileCountTracker === 0 && level === LEVEL_LIMIT) {
         endGame(gridBox, gameCompleteAudio,WINNING_MESSAGE);
+        endModal.classList.add("w3-show");
+        terminateModal("close");
+        promptModal("open");
+        finalScore.innerHTML = FINAL_SCORE_MESSAGE + scoreTracker;
     }
 }
 
+function terminateModal(action) {
+    if (action === 'open') {
+        yesButton.classList.remove("w3-hide");
+        noButton.classList.remove("w3-hide");
+        terminateMessage.classList.remove("w3-hide");
+    } else if (action === 'close') {
+        yesButton.classList.add("w3-hide");
+        noButton.classList.add("w3-hide");
+        terminateMessage.classList.add("w3-hide");
+    }
+}
+
+function promptModal(action) {
+    if (action === 'open') {
+        submitButton.classList.remove("w3-hide");
+        submitForm.classList.remove("w3-hide");
+    } else if (action === 'close') {
+        submitButton.classList.add("w3-hide");
+        submitForm.classList.add("w3-hide");
+        playerName.value = "";
+
+    }
+}
+
+function leaderboardModal(action) {
+    if (action === 'open') {
+        leaderboardTitle.classList.remove("w3-hide");
+    } else if (action === 'close') {
+        leaderboardTitle.classList.add("w3-hide");
+        while (leaderboard.hasChildNodes()) {
+            leaderboard.removeChild(leaderboard.firstChild);
+        }
+    }
+}
+
+
 function resetModal() {
-    terminateMessage.classList.remove("w3-hide");
-    yesButton.classList.remove("w3-hide");
-    noButton.classList.remove("w3-hide");
-    submitForm.classList.add("w3-hide");
     endModal.classList.remove("w3-show");
+    terminateModal('open');
+    promptModal('close');
+    leaderboardModal('close')
+
+}
+
+function submitRecord(){
+    let userRequest = new XMLHttpRequest();
+    let url = "https://mysql-memory-game.herokuapp.com/";
+    let combinedURL = `${url}?name='${playerName.value}'&score=${highestScore}`;
+    console.log(combinedURL);
+    userRequest.open("GET", combinedURL, true);
+    userRequest.send();
+    userRequest.onreadystatechange =  () => {
+        if (userRequest.readyState === 4 && userRequest.status === 200) {
+            let leaderboardInfo = JSON.parse(userRequest.response);
+            for (let i = 0; i < leaderboardInfo.length; i++) {
+                let leader = document.createElement("LI");
+                leader.innerHTML = `${leaderboardInfo[i]['name']} ${leaderboardInfo[i]['score']}`;
+                queryResult.push(leader);
+                leaderboard.appendChild(leader);
+            }
+            isResultSubmitted = true;
+        }
+    };
 }
 
 function startGame() {
-    playButton.onclick = () => {
+    playButton.onclick = ()=> {
         buttonAudio.play().then( ()=> {
             playButton.classList.add("w3-hide");
             gameBox.classList.remove("w3-hide");
@@ -332,26 +414,47 @@ function startGame() {
         });
     };
 
-    terminateButton.onclick = () => {
+    terminateButton.onclick = ()=> {
         endModal.classList.add("w3-show");
-        finalScore.innerHTML = FINAL_SCORE_MESSAGE + scoreTracker;
+        if (isResultSubmitted) {
+            terminateModal('close');
+            promptModal('close');
+            leaderboardModal('open');
+            for (let i = 0; i < queryResult.length; i++) {
+                leaderboard.appendChild(queryResult[i]);
+            }
+        } else if (isGameOver) {
+            terminateModal('close');
+            promptModal('open');
+            leaderboardModal('close');
+        } else {
+            terminateModal('open');
+            promptModal('close');
+            leaderboardModal('close');        }
+        finalScore.innerHTML = FINAL_SCORE_MESSAGE + highestScore;
     };
 
-    closeModalSpan.onclick = () => {
+    closeModalSpan.onclick = ()=> {
         endModal.classList.remove("w3-show");
         resetModal();
     };
 
-    noButton.onclick = () => {
+    noButton.onclick = ()=> {
         endModal.classList.remove("w3-show");
     };
 
-    yesButton.onclick = () => {
-        terminateMessage.classList.add("w3-hide");
-        yesButton.classList.add("w3-hide");
-        noButton.classList.add("w3-hide");
-        submitForm.classList.remove("w3-hide");
+    yesButton.onclick = ()=> {
+        terminateModal('close');
+        promptModal('open');
+        isGameOver = true;
         endGame(gridBox, gameOverAudio,GAME_OVER_MESSAGE);
+    };
+
+    submitButton.onclick = ()=> {
+        submitRecord();
+        promptModal('close');
+        leaderboardModal('open');
+        playerName.value = '';
     };
 }
 

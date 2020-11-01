@@ -41,7 +41,7 @@
 <div class="w3-padding-large invisible" id="main">
 
     <h2 class="w3-text-black visible">Memory Game</h2>
-    <p class="visible">Click on <b class="w3-text-red">RED</b> blocks to score.</p>
+    <p class="visible">Click on <b class="w3-text-red">RED</b> blocks to score. Receive bonus if you don't click on the wrong tiles.</p>
     <div id="game-container" class="margin-bottom20 invisible unclickable">
         <div class="w3-center visible">
             <button id="play-button" class="w3-btn w3-round-large w3-black w3-text-white w3-hover-light-grey margin-bottom20">PLAY</button>
@@ -52,21 +52,23 @@
                     <div class="w3-modal-content">
                         <div class="w3-container w3-center">
                             <button id="close-modal" class="w3-button w3-display-topright fa fa-close"></button>
-                            <p class="w3-large">Are you sure about this?</p>
+                            <p class="w3-large w3-hide">Are you sure about this?</p>
+                            <p class="w3-xlarge w3-text-black w3-hide">LEADERBOARD</p>
+                            <ol id="leaderboard" class="w3-ol w3-text-black w3-center visible"></ol>
                             <form id="submit-form" class="w3-container visible w3-hide">
 
                                 <label class="w3-xlarge w3-text-black"><b>Your Name</b>
-                                    <input class="w3-input w3-border visible" type="text">
+                                    <input id="player-name" class="w3-input w3-border visible" type="text">
                                 </label>
 
                                 <p id="final-score"></p>
 
-                                <button id="submit-button" class="w3-text-black w3-large visible">Submit</button>
-
                             </form>
+                            <button id="submit-button" class="w3-hide w3-text-black w3-large visible">Submit</button>
+
                             <div class="w3-bar">
-                                <button id="yes" class="w3-text-black w3-large visible">Yes</button>
-                                <button id="no" class="w3-text-black w3-large visible">No</button>
+                                <button id="yes" class="w3-text-black w3-large w3-hide visible">Yes</button>
+                                <button id="no" class="w3-text-black w3-large w3-hide visible">No</button>
                             </div>
                         </div>
                     </div>
