@@ -207,6 +207,7 @@ function startNewGame(level, gridSize, numOfTile, initialTime) {
     highestScore = scoreTracker;
     isResultSubmitted = false;
     isGameOver = false;
+    wrongTilesClicked = false;
     levelAudio.play().then( ()=> {
 
         for (let i = 0; i < cardBackArray.length; i++) {
@@ -260,7 +261,6 @@ function resetGame(gridBox) {
     gridSize = INITIAL_GRID_SIZE;
     level = INITIAL_LEVEL;
     tileCountTracker = INITIAL_TILE_COUNT;
-    wrongTilesClicked = false;
     numOfMistakesAllowed = INITIAL_NUM_OF_MISTAKE_ALLOWED;
     easiness = INITIAL_EASINESS;
     perfectBonus = INITIAL_BONUS;
