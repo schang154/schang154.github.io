@@ -23,7 +23,7 @@ let questionBank = {"questions": {1:`<p>Which of the following is not correct ab
                                 5: ["course.title()", "course.title", "course[title]", "course:title"]}
 };
 
-class MultipleChoiceQuestion {
+export class MultipleChoiceQuestion {
     constructor(questionNumber, question, answers) {
         this.number = questionNumber;
         this.question = question;
@@ -79,3 +79,4 @@ for (let i = 0; i < NUMBER_OF_QUESTION_DESIRED; i++) {
                                                      questionBank.answers[i+1]);
     quizElement.appendChild(questionCreated[i].displayQuestion());
 }
+
